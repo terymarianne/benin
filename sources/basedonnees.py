@@ -206,7 +206,7 @@ def menu():
 	menu['i']="import d'un fichier"
 	return menu
 
-NOM_FICHIER = "c:/benin2/data/BD_benin"
+NOM_FICHIER = "c:/benin/data/BD_benin"
 #NOM_FICHIER = "BD_benin"
 
 if __name__ == "__main__":

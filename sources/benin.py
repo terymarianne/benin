@@ -20,8 +20,8 @@ import utilities
 spab = 15
 spal = 5
 spaf = 5
-os.chdir("c:\\benin2\\sources\\")
-fichier_parametres = "c:\\benin2\\data\\parametres.txt"
+os.chdir("c:\\benin\\sources\\")
+fichier_parametres = "c:\\benin\\data\\parametres.txt"
 
 class champ():
 	def __init__(self,fenetre,cle,val,max):
@@ -161,7 +161,7 @@ class Photo(Frame):
 		except :
                         pass
 		try :
-			retour = os.popen("c:/benin2/sources/scanconvert.bat")
+			retour = os.popen("c:/benin/sources/scanconvert.bat")
 			print("*" * 5 , retour.read())
 			retour.close()
 		except :
