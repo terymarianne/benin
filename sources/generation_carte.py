@@ -5,24 +5,8 @@ __author__ = 'tery'
 import os
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
-from reportlab.platypus import Paragraph
 import basedonnees
 import utilities
-#class colonne:
-    #def __init__(self,pdf,x,y,s,liste,font="Times-Roman",size=5.5):
-        #self.x = x
-        #self.y = y
-        #self.s = s
-        #self.liste = liste
-        #self.textobject = pdf.beginText()
-        #self.textobject.setTextOrigin(self.x*cm, self.y*cm)
-        #self.textobject.setFont(font, size)
-
-    #def drawListe(self,pdf):
-        #for e in self.liste:
-            #self.textobject.textLine(e)
-        #for i in range(self.s): self.textobject.textLine()
-            #pdf.drawText(self.textobject)
 
 class carte_consulaire:
     def __init__(self,x,y):
@@ -66,7 +50,7 @@ class carte_consulaire:
         ##text sous photo
         pdf.setFillColorRGB(0,0,0)
         textobject = pdf.beginText()
-        textobject.setTextOrigin((self.x + self.col_photo)*cm, (self.y + 2)*cm)
+        textobject.setTextOrigin((self.x + self.col_photo - 0.1)*cm, (self.y + 2)*cm)
         textobject.setFont("Times-Roman", 5.5)
         textobject.setCharSpace(0.1)
         textobject.setWordSpace(1)
@@ -91,7 +75,7 @@ class carte_consulaire:
 
         pdf.drawImage(personne.photo, (self.x + self.col_photo)*cm, (self.y + 2.3)*cm, width=2.6*cm, height = 2.6*cm, preserveAspectRatio=True)
 
-        ##grille de gauche
+        #grille de gauche
         pdf.setFontSize(self.FontSizeLabel)
         self.impress(pdf,0,1,"Profession/Occupation")
         self.impress(pdf,0,2, "Taille/Height")
@@ -155,9 +139,7 @@ class carte_consulaire:
         pdf.drawString((self.x + self.COL[5] - DEC)*cm, (self.y + (self.PRL - 11*self.LIG))*cm, personne.data.adresse)
 
         #tampon
-        pdf.drawImage(self.tampon_blanc,(self.x + 11.30)*cm, (self.y + 0.95)*cm, width = 1.9*cm, preserveAspectRatio=True,mask="auto")
-        #pdf.setStrokeColor("white")
-        #pdf.circle((self.x + 11.6)*cm,(self.y + 2.5)*cm,1*cm,stroke=1,fill=0)
+        pdf.drawImage(self.tampon_blanc,(self.x + 11.5)*cm, (self.y + 0.95)*cm, width = 1.9*cm, preserveAspectRatio=True,mask="auto")
         pdf.drawImage(self.tampon_rouge,(self.x + self.COL[2] + 2.5)*cm, (self.y - 0.3)*cm, width = 1.9*cm, preserveAspectRatio=True,mask="auto")
 
 def generation(carte,personne):
@@ -180,6 +162,6 @@ if __name__ == "__main__":
     personne = basedonnees.c_personne("LY15-031299", identitee, "W w w w w w w", "21/02/1981", "W W W W w w w w w w w w w w w w",
                                    ["W W w w w w w w w w w","Pouzol Chantal 16"], "A W W W W w w w w w w w w w w w w w w w w w w", "Métier 9",
                                    "Orthophoniste", "blanche", "noir", "marron", "A B C D E F G H A B C D E F G",
-                                   ["extrait","W w w w w w w w w w w w w w w w w ",""], dateA, dateB,"data/images1.jpeg")
+                                   ["extrait","W w w w w w w w w w w w w w w w w ",""], dateA, dateB,"c:/benin/data/photo.png")
     generation("test.pdf",personne)
 
