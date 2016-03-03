@@ -143,6 +143,11 @@ class carte_consulaire:
         pdf.drawImage(self.tampon_rouge,(self.x + self.COL[2] + 2.5)*cm, (self.y - 0.3)*cm, width = 1.9*cm, preserveAspectRatio=True,mask="auto")
 
 def generation(carte,personne):
+    try :
+        os.remove(carte)
+        sleep(3)
+    except :
+        pass
     pdf = canvas.Canvas(carte)
     carte = carte_consulaire(0.3,22)
     carte.initialise(pdf,personne)
