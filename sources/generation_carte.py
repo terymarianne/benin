@@ -30,7 +30,7 @@ class carte_consulaire:
     def initialise(self,pdf,personne):
         pdf.drawImage(self.fond,self.x*cm,self.y*cm,preserveAspectRatio=True)
 
-        pdf.drawImage("c:/benin/data/logo.png",(self.x + 8)*cm, (self.y + 0.9)*cm,height = 120,preserveAspectRatio=True,mask="auto")
+        pdf.drawImage("c:/benin/data/logo.png",(self.x + 13)*cm, (self.y + 0.9)*cm,height = 120,preserveAspectRatio=True,mask="auto")
         #text drapeau et titres
         pdf.setFillColorRGB(255,255,255)
         pdf.setFontSize(6)
