@@ -136,8 +136,8 @@ class carte_consulaire:
         pdf.drawString((self.x + self.COL[5])*cm, (self.y + (self.PRL - 8*self.LIG))*cm, personne.data.parents[0])
         pdf.drawString((self.x + self.COL[5])*cm, (self.y + (self.PRL - 9*self.LIG))*cm, personne.data.parents[1])
         pdf.setFontSize(8)
-        pdf.drawString((self.x + self.COL[5] - DEC)*cm, (self.y + (self.PRL - 11*self.LIG))*cm, personne.data.adresse)
-
+        pdf.drawString((self.x + self.COL[5] - DEC)*cm, (self.y + (self.PRL - 10.8*self.LIG))*cm, personne.data.adresse[0])
+        pdf.drawString((self.x + self.COL[5] - DEC)*cm, (self.y + (self.PRL - 11.5*self.LIG))*cm, personne.data.adresse[1])
         #tampon
         pdf.drawImage(self.tampon_blanc,(self.x + 11.5)*cm, (self.y + 0.95)*cm, width = 1.9*cm, preserveAspectRatio=True,mask="auto")
         pdf.drawImage(self.tampon_rouge,(self.x + self.COL[2] + 2.5)*cm, (self.y - 0.3)*cm, width = 1.9*cm, preserveAspectRatio=True,mask="auto")
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     dateA = utilities.datetime.date(2015,11,11)
     dateB = utilities.datetime.date(2020,11,11)
     personne = basedonnees.c_personne("LY15-031299", identitee, "W w w w w w w", "21/02/1981", "W W W W w w w w w w w w w w w w",
-                                   ["W W w w w w w w w w w","Pouzol Chantal 16"], "A W W W W w w w w w w w w w w w w w w w w w w", "Métier 9",
+                                   ["W W w w w w w w w w w","Pouzol Chantal 16"], ["A W W W W w w w w w w w w w w w w w w w w w w","add2"], "Métier 9",
                                    "Orthophoniste", "blanche", "noir", "marron", "A B C D E F G H A B C D E F G",
                                    ["extrait","W w w w w w w w w w w w w w w w w ",""], dateA, dateB,"c:/benin/data/photo.png")
     generation("test.pdf",personne)

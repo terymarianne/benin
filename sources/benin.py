@@ -102,7 +102,7 @@ class Commandes(Frame):
         identitee = c_identitee(formulaire.V_nomu.get(),formulaire.V_prenoms.get())
         personne = c_personne(formulaire.V_numcarte.get(),identitee,formulaire.V_nomn.get(),formulaire.V_date_n.get(),
                         formulaire.V_lieu_n.get(),[formulaire.V_nomP1.get(),formulaire.V_nomP2.get()],
-                        formulaire.V_adresse.get(),formulaire.V_profession.get(),formulaire.V_taille.get(),
+                        [formulaire.V_adresse.get(), formulaire.V_adresse2.get()], formulaire.V_profession.get(),formulaire.V_taille.get(),
                         formulaire.V_teint.get(),formulaire.V_cheveux.get(),formulaire.V_yeux.get(),formulaire.V_signe.get(),
                         [formulaire.V_extrait1.get(),formulaire.V_extrait2.get(),formulaire.V_extrait3.get()],
                         date1,date2,self.parent.parent.photo.image)
@@ -223,6 +223,8 @@ def OnValidate(*args):
         app.formulaire.V_prenoms.set(app.formulaire.V_prenoms.get()[:-1])
     if len(app.formulaire.V_adresse.get()) > 45 :
         app.formulaire.V_adresse.set(app.formulaire.V_adresse.get()[:-1])
+    if len(app.formulaire.V_adresse2.get()) > 45 :
+        app.formulaire.V_adresse2.set(app.formulaire.V_adresse2.get()[:-1])
     if len(app.formulaire.V_date_n.get()) > 10 :
         app.formulaire.V_date_n.set(app.formulaire.V_date_n.get()[:-1])
     if len(app.formulaire.V_lieu_n.get()) > 30 :
@@ -292,6 +294,9 @@ class Formulaire(Frame):
         self.V_adresse = StringVar(value="")
         self.V_adresse.trace_variable("w",OnValidate)
         E_adresse = Entry(F_ID,textvariable=self.V_adresse)
+        self.V_adresse2 = StringVar(value="")
+        self.V_adresse2.trace_variable("w",OnValidate)
+        E_adresse2 = Entry(F_ID,textvariable=self.V_adresse2)
         L_nomn.grid(column=1,row=2,sticky='w',padx=spal)
         L_nomu.grid(column=2,row=2,sticky='w',padx=spal)
         L_prenoms.grid(column=3,row=2,sticky='w',padx=spal)
@@ -300,6 +305,7 @@ class Formulaire(Frame):
         E_prenoms.grid(column=3,row=3,sticky='EW',padx=spal,pady=spal)
         L_adresse.grid(column=1,row=10,sticky='w',padx=spal)
         E_adresse.grid(column=1,row=11,sticky='EW',padx=spal,pady=spal,columnspan=3)
+        E_adresse2.grid(column=1,row=12,sticky='EW',padx=spal,pady=spal,columnspan=3)
 
         F_naissance = LabelFrame(self,text="Naissance")
         L_date_n = Label(F_naissance, text="Date de naissance")
@@ -403,6 +409,7 @@ class Formulaire(Frame):
             self.V_nomn.set("")
             self.V_prenoms.set("")
             self.V_adresse.set("")
+            self.V_adresse2.set("")
             self.V_date_n.set("")
             self.V_lieu_n.set("")
             self.V_nomP1.set("")
@@ -425,7 +432,8 @@ class Formulaire(Frame):
             self.V_nomu.set(personne.data.identitee.nom)
             self.V_nomn.set(personne.data.nom_naissance)
             self.V_prenoms.set(personne.data.identitee.prenom)
-            self.V_adresse.set(personne.data.adresse)
+            self.V_adresse.set(personne.data.adresse[0])
+            self.V_adresse2.set(personne.data.adresse[1])
             self.V_date_n.set(personne.data.date_naissance)
             self.V_lieu_n.set(personne.data.lieu_naissance)
             self.V_nomP1.set(personne.data.parents[0])

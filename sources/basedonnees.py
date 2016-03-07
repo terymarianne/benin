@@ -108,6 +108,11 @@ class BDC():
             mon_pickler = pickle.Pickler(f)
             mon_pickler.dump(self.bdc)
 
+    def traduction(self):
+        for e in self.bdc :
+            if isinstance(self.bdc[e].data.adresse , str):
+                self.bdc[e].data.adresse = [ self.bdc[e].data.adresse, "" ]
+
     def import_xls(self,nom_fichier_xls):
         try :
             wb = xlrd.open_workbook(nom_fichier_xls)
@@ -128,7 +133,7 @@ class BDC():
             dexp = d1 + delta2
             titi = c_personne(sh.row_values(rownum)[0], identitee,sh.row_values(rownum)[1],
                      "date_naissance"," lieu_naissance", ["parent1", "parent2"],
-                     "adresse", "profession", "taille",
+                     ["adresse",""], "profession", "taille",
                      "teint", "cheveux", "yeux", "signes",
                      ["extrait1","extrait2","extrait3"],
                      demi, dexp,"data/images.jpeg")
@@ -214,6 +219,8 @@ if __name__ == "__main__":
     """création de l'annuaire"""
     baseDD = {}
     baseDD = BDC(NOM_FICHIER)
+    #baseDD.traduction()
+    #baseDD.save(NOM_FICHIER + "_traduit")
 
     """création du menu"""
     menu = menu()
@@ -236,7 +243,7 @@ if __name__ == "__main__":
             demi = utilities.datetime.date.today()
             dexp = utilities.datetime.date(demi.year+7,demi.month,demi.day)
             titi = c_personne("LY1", identitee, "aaaa", "date_naissance"," lieu_naissance", [parent1, parent2],
-                     "adresse", "profession", "taille", "teint", "cheveux", "yeux", "signes", "extrait",
+                     ["adresse","adresse2"], "profession", "taille", "teint", "cheveux", "yeux", "signes", "extrait",
                      demi, dexp,"photo")
             baseDD.ajout(titi)
             continue
