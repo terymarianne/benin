@@ -576,7 +576,7 @@ class simpleapp_tk(Tk):
         print(compteur, " => ", compteur[9:], " - ", date_der)
 
         if date_compare == date_der:
-            self.compteur = int(compteur[9:])
+            self.compteur = int(compteur[9:]) + 1
 
     def save(self):
 #        date = utilities.datetime.date.today()
