@@ -162,7 +162,7 @@ class Photo(Frame):
         except :
             pass
         try :
-            retour = os.popen(repertoire_w + "/sources/scanconvert.bat")
+            retour = os.popen(parametres["rep"] + "/sources/scanconvert.bat")
             print("*" * 5 , retour.read())
             retour.close()
         except :
@@ -551,49 +551,46 @@ class simpleapp_tk(Tk):
         self.cadre.pack()
 
     def charge(self):
-        try:
-            with open(parametres["par"],'r',encoding="utf8") as f:
-                r = f.read()
-                self.Dico_parametres = eval(r)
-                #print(self.Dico_parametres)
-        except:
-            print("le fichier de paramètres n'existe pas, ou il a eu un problème dans la lecture du fichier")
-            self.Dico_parametres = {}
-        date = utilities.datetime.date.today()
+        date = utilities.datetime.datetime.today()
         self.compteur = 0
-        if "der" in self.Dico_parametres:
-            #print("dernier enregistrement : {}".format(self.Dico_parametres["der"]))
-            date_compare = "{}/{}/{}".format(date.day,date.month,date.year)
-            if date_compare == self.Dico_parametres["der"]:
-                self.compteur = int(self.Dico_parametres["cmt"])
-            else :
-                self.compteur = 0
-        #print(self.compteur)
+
         sauvegarde = parametres["bdd"][:-8]
-        ext = utilities.datetime.datetime.today()
-        sauvegarde += "sauvegarde/BD_benin.{}{}{}_{}{}".format(ext.year, ext.month, ext.day, ext.hour, ext.minute)
+        sauvegarde += "sauvegarde/BD_benin.{}{:02}{:02}_{:02}{:02}".format(date.year, date.month, date.day,
+                                                                           date.hour, date.minute)
         try:
             shutil.copy(parametres["bdd"],sauvegarde)
         except:
             print("Sauvegarde impossible, la base de données n'existe pas")
+
         self.BD = BDC(parametres["bdd"])
         print("on vérifie le chargement")
         print(self.BD)
 
+        date_compare = "{:02}/{:02}/{}".format(date.day,date.month,str(date.year)[2:])
+        print(date_compare)
+        #ipdb.set_trace()
+        liste = list(self.BD.bdc.keys())
+        liste.sort()
+        compteur = liste[len(liste)-1]
+        date_der = "{}/{}/{}".format(compteur[7:9], compteur[5:7], compteur[2:4])
+        print(compteur, " => ", compteur[9:], " - ", date_der)
+
+        if date_compare == date_der:
+            self.compteur = int(compteur[9:])
 
     def save(self):
-        date = utilities.datetime.date.today()
-        date_compare = utilities.date_to_str(date)
-        self.Dico_parametres["der"] = date_compare
-        print("avant de faire save, on a date : {}, compteur : {}".format(date_compare,self.compteur))
-        self.Dico_parametres["cmt"] = str(self.compteur)
+#        date = utilities.datetime.date.today()
+#        date_compare = utilities.date_to_str(date)
+#        self.Dico_parametres["der"] = date_compare
+#        print("avant de faire save, on a date : {}, compteur : {}".format(date_compare,self.compteur))
+#        self.Dico_parametres["cmt"] = str(self.compteur)
         self.BD.save(parametres["bdd"])
-        s = "{"
-        for el in self.Dico_parametres:
-            s += '"{}":"{}",\n'.format(el,self.Dico_parametres[el])
-        s +="}"
-        with open(parametres["par"],'w',encoding="utf8") as f:
-            f.write(s)
+#        s = "{"
+#        for el in self.Dico_parametres:
+#            s += '"{}":"{}",\n'.format(el,self.Dico_parametres[el])
+#        s +="}"
+#        with open(parametres["par"],'w',encoding="utf8") as f:
+#            f.write(s)
   
     def efface(self):
         self.formulaire.update_data(None)

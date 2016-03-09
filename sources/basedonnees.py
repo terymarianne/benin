@@ -40,7 +40,7 @@ class c_donnees_xls:
     def __str__(self):
         demi = utilities.date_to_str(self.date_emission)
         dexp = utilities.date_to_str(self.date_expiration)
-        aff = "{:5} {:20} {:10} {:10}".format(self.num_carte,self.nom_naissance,demi,dexp)
+        aff = "{:5} {:10}{:10}{:10}".format(self.num_carte,self.nom_naissance,demi,dexp)
         return aff
 
 
@@ -149,7 +149,7 @@ class BDC():
         return liste_extract
 
     def __str__(self):
-        aff = "{:5} {:20} {:10} {:10}\n".format("num_carte","nom","date emi","date exp")
+        aff = "{:5} {:10}{:10}{:10}\n".format("num_carte","nom","date emi","date exp")
         for elment in self.bdc:
             aff += self.bdc[elment].__str__() + "\n"
         return aff
