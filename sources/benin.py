@@ -1,4 +1,4 @@
-__author__ = 'tery'
+#__author__ = 'tery'
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import parametres
@@ -12,6 +12,7 @@ import subprocess
 import time
 import shutil
 from os import getcwd
+
 
 import generation_carte
 from basedonnees import *
@@ -618,7 +619,8 @@ class simpleapp_tk(Tk):
         self.config(menu=self.menubar)
 
 if __name__ == "__main__":
-    #print(getcwd())
+    print(getcwd())
+    ipdb.set_trace()
     app = simpleapp_tk(None)
     app.title('Consulat du BENIN : Edition de carte consulaire')
     app.mainloop()

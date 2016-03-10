@@ -11,7 +11,7 @@ scanner = ""
 
 if my_system.system == "Linux":
     lecteur_pdf = ""
-    repertoire_w = ""
+    repertoire_w = "/home/tery/Documents/PROG/benin/benin"
 else:
     if machine == "maison":
         lecteur_pdf = "c:/Program Files (x86)/Adobe/Reader 11.0/Reader/AcroRd32.exe"

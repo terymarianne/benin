@@ -1,4 +1,4 @@
-__author__ = 'tery'
+#__author__ = 'tery'
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import parametres
