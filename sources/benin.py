@@ -566,18 +566,20 @@ class simpleapp_tk(Tk):
         self.BD = BDC(parametres["bdd"])
         print("on vérifie le chargement")
         print(self.BD)
+        
+        try :
+            date_compare = "{:02}/{:02}/{}".format(date.day,date.month,str(date.year)[2:])
+            print(date_compare)
+            liste = list(self.BD.bdc.keys())
+            liste.sort()
+            compteur = liste[len(liste)-1]
+            date_der = "{}/{}/{}".format(compteur[7:9], compteur[5:7], compteur[2:4])
+            print(compteur, " => ", compteur[9:], " - ", date_der)
 
-        date_compare = "{:02}/{:02}/{}".format(date.day,date.month,str(date.year)[2:])
-        print(date_compare)
-        #ipdb.set_trace()
-        liste = list(self.BD.bdc.keys())
-        liste.sort()
-        compteur = liste[len(liste)-1]
-        date_der = "{}/{}/{}".format(compteur[7:9], compteur[5:7], compteur[2:4])
-        print(compteur, " => ", compteur[9:], " - ", date_der)
-
-        if date_compare == date_der:
-            self.compteur = int(compteur[9:]) + 1
+            if date_compare == date_der:
+                self.compteur = int(compteur[9:]) + 1
+        except :
+            pass
 
     def save(self):
 #        date = utilities.datetime.date.today()
@@ -619,8 +621,6 @@ class simpleapp_tk(Tk):
         self.config(menu=self.menubar)
 
 if __name__ == "__main__":
-    print(getcwd())
-    ipdb.set_trace()
     app = simpleapp_tk(None)
     app.title('Consulat du BENIN : Edition de carte consulaire')
     app.mainloop()

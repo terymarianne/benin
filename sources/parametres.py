@@ -22,9 +22,9 @@ else:
         scanner = ""
         
 parametres = { "rep": repertoire_w,
-               "don": repertoire_w + "/data",
-               "bdd": repertoire_w + "/data/BD_benin",
-               "par": repertoire_w + "/data/parametre.txt",
+               "don": repertoire_w + "/DATA",
+               "bdd": repertoire_w + "/DATA/BD_benin",
+               "par": repertoire_w + "/DATA/parametre.txt",
                "car": repertoire_w + "/carte_pdf",
                "pho": repertoire_w + "/carte_pdf/photos",
                "pdf": lecteur_pdf,
