@@ -1,6 +1,8 @@
-__author__ = 'tery'
+#__author__ = 'tery'
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import parametres
+from parametres import parametres
 
 import os
 from reportlab.pdfgen import canvas
@@ -12,11 +14,10 @@ class carte_consulaire:
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        from os import getcwd
-        print(getcwd())
-        self.fond = "c:/benin/data/fond.jpg"
-        self.tampon_blanc = "c:/benin/data/tampon_blanc.png"
-        self.tampon_rouge = "c:/benin/data/tampon_rouge.png"
+        self.fond = parametres["don"] + "/fond.jpg"
+        self.tampon_blanc = parametres["don"] + "/tampon_blanc.png"
+        self.tampon_rouge = parametres["don"] + "/tampon_rouge.png"
+        self.logo = parametres["don"] + "/logo.png"
         self.FontSizeLabel = 6
         self.FontSizeData = 8
         self.COL = [0.2,2.6,5.3,8.5,13.4,15.3]
@@ -30,7 +31,7 @@ class carte_consulaire:
     def initialise(self,pdf,personne):
         pdf.drawImage(self.fond,self.x*cm,self.y*cm,preserveAspectRatio=True)
 
-        pdf.drawImage("c:/benin/data/logo.png",(self.x + 13)*cm, (self.y + 0.9)*cm,height = 120,preserveAspectRatio=True,mask="auto")
+        pdf.drawImage(self.logo,(self.x + 13)*cm, (self.y + 0.9)*cm,height = 120,preserveAspectRatio=True,mask="auto")
         #text drapeau et titres
         pdf.setFillColorRGB(255,255,255)
         pdf.setFontSize(6)
@@ -136,8 +137,8 @@ class carte_consulaire:
         pdf.drawString((self.x + self.COL[5])*cm, (self.y + (self.PRL - 8*self.LIG))*cm, personne.data.parents[0])
         pdf.drawString((self.x + self.COL[5])*cm, (self.y + (self.PRL - 9*self.LIG))*cm, personne.data.parents[1])
         pdf.setFontSize(8)
-        pdf.drawString((self.x + self.COL[5] - DEC)*cm, (self.y + (self.PRL - 11*self.LIG))*cm, personne.data.adresse)
-
+        pdf.drawString((self.x + self.COL[5] - DEC)*cm, (self.y + (self.PRL - 10.8*self.LIG))*cm, personne.data.adresse[0])
+        pdf.drawString((self.x + self.COL[5] - DEC)*cm, (self.y + (self.PRL - 11.5*self.LIG))*cm, personne.data.adresse[1])
         #tampon
         pdf.drawImage(self.tampon_blanc,(self.x + 11.5)*cm, (self.y + 0.95)*cm, width = 1.9*cm, preserveAspectRatio=True,mask="auto")
         pdf.drawImage(self.tampon_rouge,(self.x + self.COL[2] + 2.5)*cm, (self.y - 0.3)*cm, width = 1.9*cm, preserveAspectRatio=True,mask="auto")
@@ -160,13 +161,14 @@ def generation(carte,personne):
     pdf.save()
 
 if __name__ == "__main__":
-    os.chdir("c:\\benin\\")
+    os.chdir(parametres["rep"])
     identitee = basedonnees.c_identitee("W w w w w w w","W W W w w w w w w w w w w w w")
     dateA = utilities.datetime.date(2015,11,11)
     dateB = utilities.datetime.date(2020,11,11)
-    personne = basedonnees.c_personne("LY15-031299", identitee, "W w w w w w w", "21/02/1981", "W W W W w w w w w w w w w w w w",
-                                   ["W W w w w w w w w w w","Pouzol Chantal 16"], "A W W W W w w w w w w w w w w w w w w w w w w", "Métier 9",
-                                   "Orthophoniste", "blanche", "noir", "marron", "A B C D E F G H A B C D E F G",
-                                   ["extrait","W w w w w w w w w w w w w w w w w ",""], dateA, dateB,"c:/benin/data/photo.png")
+    personne = basedonnees.c_personne("LY15-031299", identitee, "W w w w w w w", "21/02/1981",
+                                      "W W W W w w w w w w w w w w w", ["W W w w w w w w w w w","Pouzol Chantal 16"],
+                                      ["A W W W W w w w w w w w w w w w w w w w w w w","add2"], "Métier 9",
+                                      "Orthophoniste", "blanche", "noir", "marron", "A B C D E F G H A B C D E F G",
+                                      ["extrait","W w w w w w w w w w w w w w w w w ",""], dateA, dateB,"c:/benin/data/photo.png")
     generation("test.pdf",personne)
 

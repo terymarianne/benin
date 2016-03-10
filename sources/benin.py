@@ -1,6 +1,8 @@
-__author__ = 'tery'
+#__author__ = 'tery'
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import parametres
+from parametres import parametres
 
 from tkinter import *
 from PIL import Image, ImageTk 
@@ -11,6 +13,7 @@ import time
 import shutil
 from os import getcwd
 
+
 import generation_carte
 from basedonnees import *
 import utilities
@@ -20,8 +23,7 @@ import utilities
 spab = 15
 spal = 5
 spaf = 5
-os.chdir("c:\\benin\\sources\\")
-fichier_parametres = "c:\\benin\\data\\parametres.txt"
+os.chdir(parametres["rep"])
 
 class champ():
     def __init__(self,fenetre,cle,val,max):
@@ -85,9 +87,9 @@ class Commandes(Frame):
     def imprimer(self):
         personne = self.save()
         if personne :
-            nom_fichier_pdf = "{}/{}.pdf".format(self.parent.parent.Dico_parametres["car"],personne.data.num_carte)
+            nom_fichier_pdf = "{}/{}.pdf".format(parametres["car"],personne.data.num_carte)
             generation_carte.generation(nom_fichier_pdf,personne)
-            exe = self.parent.parent.Dico_parametres["pdf"]
+            exe = parametres["pdf"]
             subprocess.Popen([exe,nom_fichier_pdf])
 
         else:
@@ -102,7 +104,7 @@ class Commandes(Frame):
         identitee = c_identitee(formulaire.V_nomu.get(),formulaire.V_prenoms.get())
         personne = c_personne(formulaire.V_numcarte.get(),identitee,formulaire.V_nomn.get(),formulaire.V_date_n.get(),
                         formulaire.V_lieu_n.get(),[formulaire.V_nomP1.get(),formulaire.V_nomP2.get()],
-                        formulaire.V_adresse.get(),formulaire.V_profession.get(),formulaire.V_taille.get(),
+                        [formulaire.V_adresse.get(), formulaire.V_adresse2.get()], formulaire.V_profession.get(),formulaire.V_taille.get(),
                         formulaire.V_teint.get(),formulaire.V_cheveux.get(),formulaire.V_yeux.get(),formulaire.V_signe.get(),
                         [formulaire.V_extrait1.get(),formulaire.V_extrait2.get(),formulaire.V_extrait3.get()],
                         date1,date2,self.parent.parent.photo.image)
@@ -113,7 +115,7 @@ class Commandes(Frame):
 
     def save(self):
         personne = self.personne()
-        self.parent.parent.photo.update("{}/photo.png".format(self.parent.parent.Dico_parametres["don"]))
+        self.parent.parent.photo.update("{}/photo.png".format(parametres["don"]))
         if personne :
             self.parent.parent.compteur += self.parent.parent.BD.ajout(personne)
             self.parent.parent.formulaire.update_data()
@@ -126,8 +128,8 @@ class Photo(Frame):
         Frame.__init__(self, fenetre, **kwargs) #bg="blue",
         # Création de nos widgets
         self.parent = fenetre
-        print("{}/photo.png".format(self.parent.parent.Dico_parametres["don"]))
-        self.image = "{}/photo.png".format(self.parent.parent.Dico_parametres["don"])
+        print("{}/photo.png".format(parametres["don"]))
+        self.image = "{}/photo.png".format(parametres["don"])
         im =  Image.open(self.image)
         x=im.size[0]
         y=im.size[1]
@@ -150,18 +152,18 @@ class Photo(Frame):
     def scanner(self):
         #self.image = recadrage("data/images.jpeg")
         #self.image.save("data/imagesR.jpeg")
-        self.image = "{}/{}.jpeg".format(self.parent.parent.Dico_parametres["pho"],
+        self.image = "{}/{}.jpeg".format(parametres["pho"],
                         self.parent.parent.formulaire.V_numcarte.get())
         try :
             os.remove("c:/test/testR.jpeg")
         except :
             pass
         try :
-                        os.remove("c:/test/test.jpg")
+            os.remove("c:/test/test.jpg")
         except :
-                        pass
+            pass
         try :
-            retour = os.popen("c:/benin/sources/scanconvert.bat")
+            retour = os.popen(parametres["rep"] + "/sources/scanconvert.bat")
             print("*" * 5 , retour.read())
             retour.close()
         except :
@@ -223,6 +225,8 @@ def OnValidate(*args):
         app.formulaire.V_prenoms.set(app.formulaire.V_prenoms.get()[:-1])
     if len(app.formulaire.V_adresse.get()) > 45 :
         app.formulaire.V_adresse.set(app.formulaire.V_adresse.get()[:-1])
+    if len(app.formulaire.V_adresse2.get()) > 45 :
+        app.formulaire.V_adresse2.set(app.formulaire.V_adresse2.get()[:-1])
     if len(app.formulaire.V_date_n.get()) > 10 :
         app.formulaire.V_date_n.set(app.formulaire.V_date_n.get()[:-1])
     if len(app.formulaire.V_lieu_n.get()) > 30 :
@@ -260,7 +264,7 @@ class Formulaire(Frame):
         L_dateEmi = Label(F_carte, text="Date d'émission")
         L_dateExp = Label(F_carte, text="Date d'expiration")
         d = utilities.datetime.date.today()
-        nomcarte = "LY"+str(d.year)[2:]+"-"+str(d.month)+str(d.day)+str(self.parent.parent.compteur)
+        nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
         self.V_numcarte = StringVar(value=nomcarte)
         E_numcarte = Entry(F_carte,textvariable=self.V_numcarte)
         self.V_dateEmi = StringVar(value=utilities.date_to_str(d))
@@ -292,6 +296,9 @@ class Formulaire(Frame):
         self.V_adresse = StringVar(value="")
         self.V_adresse.trace_variable("w",OnValidate)
         E_adresse = Entry(F_ID,textvariable=self.V_adresse)
+        self.V_adresse2 = StringVar(value="")
+        self.V_adresse2.trace_variable("w",OnValidate)
+        E_adresse2 = Entry(F_ID,textvariable=self.V_adresse2)
         L_nomn.grid(column=1,row=2,sticky='w',padx=spal)
         L_nomu.grid(column=2,row=2,sticky='w',padx=spal)
         L_prenoms.grid(column=3,row=2,sticky='w',padx=spal)
@@ -300,6 +307,7 @@ class Formulaire(Frame):
         E_prenoms.grid(column=3,row=3,sticky='EW',padx=spal,pady=spal)
         L_adresse.grid(column=1,row=10,sticky='w',padx=spal)
         E_adresse.grid(column=1,row=11,sticky='EW',padx=spal,pady=spal,columnspan=3)
+        E_adresse2.grid(column=1,row=12,sticky='EW',padx=spal,pady=spal,columnspan=3)
 
         F_naissance = LabelFrame(self,text="Naissance")
         L_date_n = Label(F_naissance, text="Date de naissance")
@@ -392,9 +400,9 @@ class Formulaire(Frame):
 
     def update_data(self,personne=None):
         if personne == None:
-            self.parent.parent.photo.update("{}/photo.png".format(self.parent.parent.Dico_parametres["don"]))
+            self.parent.parent.photo.update("{}/photo.png".format(parametres["don"]))
             d = utilities.datetime.date.today()
-            nomcarte = "LY"+str(d.year)[2:]+"-"+str(d.month)+str(d.day)+str(self.parent.parent.compteur)
+            nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
             self.V_numcarte.set(nomcarte)
             dexp = utilities.date_expiration(d)
             self.V_dateEmi.set(str(d.day)+"/"+str(d.month)+"/"+str(d.year))
@@ -403,6 +411,7 @@ class Formulaire(Frame):
             self.V_nomn.set("")
             self.V_prenoms.set("")
             self.V_adresse.set("")
+            self.V_adresse2.set("")
             self.V_date_n.set("")
             self.V_lieu_n.set("")
             self.V_nomP1.set("")
@@ -425,7 +434,8 @@ class Formulaire(Frame):
             self.V_nomu.set(personne.data.identitee.nom)
             self.V_nomn.set(personne.data.nom_naissance)
             self.V_prenoms.set(personne.data.identitee.prenom)
-            self.V_adresse.set(personne.data.adresse)
+            self.V_adresse.set(personne.data.adresse[0])
+            self.V_adresse2.set(personne.data.adresse[1])
             self.V_date_n.set(personne.data.date_naissance)
             self.V_lieu_n.set(personne.data.lieu_naissance)
             self.V_nomP1.set(personne.data.parents[0])
@@ -447,28 +457,22 @@ class Parametre(Frame):
     def __init__(self, fenetre, **kwargs):
         Frame.__init__(self, fenetre, width = 300,height = 200,**kwargs) #bg="black",
         self.parent = fenetre
-        imprimante = Label(self, text="Imprimante")
-        imprimante.grid(column=0,row=0,padx=spal,pady=spal)
-        self.V_imprimante = StringVar(value=self.parent.Dico_parametres["imp"])
-        E_imprimante = Entry(self,width=70,textvariable=self.V_imprimante)
-        E_imprimante.grid(column=1,row=0,padx=spal,pady=spal)
         scanner = Label(self, text="Scanner")
         scanner.grid(column=0,row=1,padx=spal,pady=spal)
-        self.V_scanner = StringVar(value=self.parent.Dico_parametres["sca"])
+        self.V_scanner = StringVar(value=parametres["sca"])
         E_scanner = Entry(self,width=70,textvariable=self.V_scanner)
         E_scanner.grid(column=1,row=1,padx=spal,pady=spal)
         pdf = Label(self, text="Visualiseur PDF")
         pdf.grid(column=0,row=2,padx=spal,pady=spal)
-        self.V_pdf = StringVar(value=self.parent.Dico_parametres["pdf"])
+        self.V_pdf = StringVar(value=parametres["pdf"])
         E_pdf = Entry(self,width=70,textvariable=self.V_pdf)
         E_pdf.grid(column=1,row=2,padx=spal,pady=spal)
         bouton = Button(self, text="Enregistrer",width=spab, command=self.save)
         bouton.grid(column = 3,row = 2,padx=spal,pady=spal)
 
     def save(self):
-        self.parent.Dico_parametres["imp"] = self.V_imprimante.get()
-        self.parent.Dico_parametres["sca"] = self.V_scanner.get()
-        self.parent.Dico_parametres["pdf"] = self.V_pdf.get()
+        parametres["sca"] = self.V_scanner.get()
+        parametres["pdf"] = self.V_pdf.get()
 
     def editer(self):
         self.parent.efface()
@@ -548,52 +552,48 @@ class simpleapp_tk(Tk):
         self.cadre.pack()
 
     def charge(self):
-        try:
-            #print("----")
-            #print(fichier_parametres)
-            with open(fichier_parametres,'r',encoding="utf8") as f:
-                r = f.read()
-                self.Dico_parametres = eval(r)
-                #print(self.Dico_parametres)
-        except:
-            print("le fichier de paramètres n'existe pas, ou il a eu un problème dans la lecture du fichier")
-            self.Dico_parametres = {"sca": "chemin vers le scanner","imp":"chemin vers l'imprimante",
-                           "pdf":"evince","bdd":"data/BD_benin"}
-        date = utilities.datetime.date.today()
+        date = utilities.datetime.datetime.today()
         self.compteur = 0
-        if "der" in self.Dico_parametres:
-            #print("dernier enregistrement : {}".format(self.Dico_parametres["der"]))
-            date_compare = "{}/{}/{}".format(date.day,date.month,date.year)
-            if date_compare == self.Dico_parametres["der"]:
-                self.compteur = int(self.Dico_parametres["cmt"])
-            else :
-                self.compteur = 0
-        #print(self.compteur)
-        sauvegarde = self.Dico_parametres["bdd"][:-8]
-        ext = utilities.datetime.datetime.today()
-        sauvegarde += "sauvegarde/BD_benin.{}{}{}_{}{}".format(ext.year, ext.month, ext.day, ext.hour, ext.minute)
+
+        sauvegarde = parametres["bdd"][:-8]
+        sauvegarde += "sauvegarde/BD_benin.{}{:02}{:02}_{:02}{:02}".format(date.year, date.month, date.day,
+                                                                           date.hour, date.minute)
         try:
-            shutil.copy(self.Dico_parametres["bdd"],sauvegarde)
+            shutil.copy(parametres["bdd"],sauvegarde)
         except:
             print("Sauvegarde impossible, la base de données n'existe pas")
-        self.BD = BDC(self.Dico_parametres["bdd"])
+
+        self.BD = BDC(parametres["bdd"])
         print("on vérifie le chargement")
         print(self.BD)
+        
+        try :
+            date_compare = "{:02}/{:02}/{}".format(date.day,date.month,str(date.year)[2:])
+            print(date_compare)
+            liste = list(self.BD.bdc.keys())
+            liste.sort()
+            compteur = liste[len(liste)-1]
+            date_der = "{}/{}/{}".format(compteur[7:9], compteur[5:7], compteur[2:4])
+            print(compteur, " => ", compteur[9:], " - ", date_der)
 
+            if date_compare == date_der:
+                self.compteur = int(compteur[9:]) + 1
+        except :
+            pass
 
     def save(self):
-        date = utilities.datetime.date.today()
-        date_compare = utilities.date_to_str(date)
-        self.Dico_parametres["der"] = date_compare
-        print("avant de faire save, on a date : {}, compteur : {}".format(date_compare,self.compteur))
-        self.Dico_parametres["cmt"] = str(self.compteur)
-        self.BD.save(self.Dico_parametres["bdd"])
-        s = "{"
-        for el in self.Dico_parametres:
-            s += '"{}":"{}",\n'.format(el,self.Dico_parametres[el])
-        s +="}"
-        with open(fichier_parametres,'w',encoding="utf8") as f:
-            f.write(s)
+#        date = utilities.datetime.date.today()
+#        date_compare = utilities.date_to_str(date)
+#        self.Dico_parametres["der"] = date_compare
+#        print("avant de faire save, on a date : {}, compteur : {}".format(date_compare,self.compteur))
+#        self.Dico_parametres["cmt"] = str(self.compteur)
+        self.BD.save(parametres["bdd"])
+#        s = "{"
+#        for el in self.Dico_parametres:
+#            s += '"{}":"{}",\n'.format(el,self.Dico_parametres[el])
+#        s +="}"
+#        with open(parametres["par"],'w',encoding="utf8") as f:
+#            f.write(s)
   
     def efface(self):
         self.formulaire.update_data(None)
@@ -621,7 +621,6 @@ class simpleapp_tk(Tk):
         self.config(menu=self.menubar)
 
 if __name__ == "__main__":
-    #print(getcwd())
     app = simpleapp_tk(None)
     app.title('Consulat du BENIN : Edition de carte consulaire')
     app.mainloop()

@@ -1,14 +1,13 @@
-__author__ = 'tery'
+#__author__ = 'tery'
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import parametres
+from parametres import parametres
 import pickle
 import os
 import xlrd
 from xlwt import Workbook
-
-#from tinydb import TinyDB
-#from tinydb import where
 
 import ipdb
 import utilities
@@ -41,7 +40,7 @@ class c_donnees_xls:
     def __str__(self):
         demi = utilities.date_to_str(self.date_emission)
         dexp = utilities.date_to_str(self.date_expiration)
-        aff = "{:5} {:20} {:10} {:10}".format(self.num_carte,self.nom_naissance,demi,dexp)
+        aff = "{:5} {:10}{:10}{:10}".format(self.num_carte,self.nom_naissance,demi,dexp)
         return aff
 
 
@@ -54,31 +53,6 @@ class c_personne:
         self.profession, self.taille, self.teint = profession, taille, teint
         self.cheveux, self.yeux, self.signes, self.extrait = cheveux, yeux, signes, extrait
 
-    #def DB(self):
-        #personne = {}
-        #personne['nom_usuel'] = self.data.identitee.nom
-        #personne['nom_naissance'] = self.data.nom_naissance
-        #personne['prenoms'] = self.data.identitee.prenom
-        #personne['num_carte'] = self.data.num_carte
-        #personne['date_naisse'] self.data.date_naissance
-        #personne['lieu_naissance'] = self.data.lieu_naissance
-        #personne['P1nom'] = self.data.parents[0].nom
-        #personne['P1prenom'] = self.data.parents[0].prenom
-        #personne['P2nom'] = self.data.parents[1].nom
-        #personne['P2prenom'] = self.data.parents[1].prenom
-        #personne['adresse'] = self.data.adresse
-        #personne['date_emission'] = self.data.date_emission
-        #personne['date_expiration'] = self.data.date_expiration
-        #personne['profession'] = self.profession
-        #personne['taille'] = self.taille
-        #personne['teint'] = self.teint
-        #personne['cheveux'] = self.cheveux
-        #personne['yeux'] = self.yeux
-        #personne['signes'] = self.signes
-        #personne['extrait'] = self.extrait
-
-        #return personne
-
     def excel(self):
         return self.data.excel()
 
@@ -90,23 +64,24 @@ class BDC():
     def __init__(self,nom_fichier_BD):
         try:
             f = open(nom_fichier_BD,'rb')
-            print(nom_fichier_BD)
             mon_pickler = pickle.Unpickler(f)
             self.bdc = mon_pickler.load()
-            print("base chargée")
+            print("la base de donnée {} est chargée".format(nom_fichier_BD))
             f.close()
         except:
-            print("la base de donnée n'existe pas")
+            print("la base de donnée {} n'existe pas".format(nom_fichier_BD))
             self.bdc = {}
 
     def save(self,nom_fichier_BD):
-        cmd = "cp {} {}.save".format(nom_fichier_BD,nom_fichier_BD)
-        print(cmd)
-        # os.system(cmd)
         print("on sauve la base dans : ", nom_fichier_BD)
         with open(nom_fichier_BD,'wb') as f:
             mon_pickler = pickle.Pickler(f)
             mon_pickler.dump(self.bdc)
+
+    def traduction(self):
+        for e in self.bdc :
+            if isinstance(self.bdc[e].data.adresse , str):
+                self.bdc[e].data.adresse = [ self.bdc[e].data.adresse, "" ]
 
     def import_xls(self,nom_fichier_xls):
         try :
@@ -128,7 +103,7 @@ class BDC():
             dexp = d1 + delta2
             titi = c_personne(sh.row_values(rownum)[0], identitee,sh.row_values(rownum)[1],
                      "date_naissance"," lieu_naissance", ["parent1", "parent2"],
-                     "adresse", "profession", "taille",
+                     ["adresse",""], "profession", "taille",
                      "teint", "cheveux", "yeux", "signes",
                      ["extrait1","extrait2","extrait3"],
                      demi, dexp,"data/images.jpeg")
@@ -144,7 +119,7 @@ class BDC():
         retour = 1
         if personne.data.num_carte in self.bdc :
             retour =0
-        print("on ajoute : ",personne.data.num_carte, personne.data.nom_naissance)
+        print("on ajoute/met à jour : ",personne.data.num_carte, personne.data.nom_naissance)
         self.bdc[personne.data.num_carte] = personne
         return retour
 
@@ -174,7 +149,7 @@ class BDC():
         return liste_extract
 
     def __str__(self):
-        aff = "{:5} {:20} {:10} {:10}\n".format("num_carte","nom","date emi","date exp")
+        aff = "{:5} {:10}{:10}{:10}\n".format("num_carte","nom","date emi","date exp")
         for elment in self.bdc:
             aff += self.bdc[elment].__str__() + "\n"
         return aff
@@ -206,14 +181,15 @@ def menu():
     menu['i']="import d'un fichier"
     return menu
 
-NOM_FICHIER = "c:/benin/data/BD_benin"
-#NOM_FICHIER = "BD_benin"
-
 if __name__ == "__main__":
+    os.chdir(parametres["rep"])
+    NOM_FICHIER = parametres["bdd"]
     instruction = 'a'
     """création de l'annuaire"""
     baseDD = {}
     baseDD = BDC(NOM_FICHIER)
+    #baseDD.traduction()
+    #baseDD.save(NOM_FICHIER + "_traduit")
 
     """création du menu"""
     menu = menu()
@@ -236,7 +212,7 @@ if __name__ == "__main__":
             demi = utilities.datetime.date.today()
             dexp = utilities.datetime.date(demi.year+7,demi.month,demi.day)
             titi = c_personne("LY1", identitee, "aaaa", "date_naissance"," lieu_naissance", [parent1, parent2],
-                     "adresse", "profession", "taille", "teint", "cheveux", "yeux", "signes", "extrait",
+                     ["adresse","adresse2"], "profession", "taille", "teint", "cheveux", "yeux", "signes", "extrait",
                      demi, dexp,"photo")
             baseDD.ajout(titi)
             continue
@@ -267,33 +243,4 @@ if __name__ == "__main__":
             nom_fichier_xls = "\data\test_import.xls"
             baseDD.import_xls(nom_fichier_xls)
 
-    print("on sauvegarde dans {}".format(NOM_FICHIER))
     baseDD.save(NOM_FICHIER)
-                
-                
-                
-                
-                
-                
-
-    #db = TinyDB('benin.json')
-    #table = db.table('dossier')
-    #identitee = c_identitee("nomU","prenoms")
-    #parent1 = c_identitee("nomU","prenoms")
-    #parent2 = c_identitee("nomU","prenoms")
-    #titi = c_personne("num_carte", identitee, "nom_naissance", "date_naissance"," lieu_naissance", [parent1, parent2],
-                   #"adresse", "profession", "taille", "teint", "cheveux", "yeux", "signes", "extrait",
-                   #"date_emission", "date_expiration")
-    #table.insert(titi.DB())
-
-    pass
-
-    # table.insert({'type': 'carotte', 'nombre': date.today()})
-    # table.insert({'type': 'radis', 'nombre': date(2015,2,14)})
-    # table.insert({'type': 'tomate', 'nombre': date(2014,1,1)})
-    # print(table.search(where('nombre') > date(2015,1,1)))
-    # print(6*"-")
-    # print(table.all())
-    # # table.purge()
-
-
