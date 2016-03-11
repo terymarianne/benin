@@ -1,9 +1,7 @@
 import platform
+import local_parametre
 
 my_system = platform.uname()
-
-machine = "maison"
-#machine = "dommartin"
 
 lecteur_pdf = ""
 repertoire_w = ""
