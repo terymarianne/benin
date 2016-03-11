@@ -254,6 +254,12 @@ def OnValidate(*args):
     if len(app.formulaire.V_signe.get()) > 25 :
         app.formulaire.V_signe.set(app.formulaire.V_signe.get()[:-1])
 
+def OnValidate2(*args):
+    code = app.formulaire.V_numcarte.get()
+    if code in app.BD.bdc :
+        app.erreur.affiche("la carte existe déjà")
+    else: 
+        app.erreur.affiche("ok")
 
 class Formulaire(Frame):
     def __init__(self, fenetre, **kwargs):
@@ -266,6 +272,7 @@ class Formulaire(Frame):
         d = utilities.datetime.date.today()
         nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
         self.V_numcarte = StringVar(value=nomcarte)
+        self.V_numcarte.trace_variable("w",OnValidate2)
         E_numcarte = Entry(F_carte,textvariable=self.V_numcarte)
         self.V_dateEmi = StringVar(value=utilities.date_to_str(d))
         E_dateEmi = Entry(F_carte,textvariable=self.V_dateEmi)
