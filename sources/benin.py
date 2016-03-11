@@ -457,11 +457,11 @@ class Parametre(Frame):
     def __init__(self, fenetre, **kwargs):
         Frame.__init__(self, fenetre, width = 300,height = 200,**kwargs) #bg="black",
         self.parent = fenetre
-        scanner = Label(self, text="Scanner")
-        scanner.grid(column=0,row=1,padx=spal,pady=spal)
-        self.V_scanner = StringVar(value=parametres["sca"])
-        E_scanner = Entry(self,width=70,textvariable=self.V_scanner)
-        E_scanner.grid(column=1,row=1,padx=spal,pady=spal)
+        repertoire = Label(self, text="Répertoire d'instalation du programme")
+        repertoire.grid(column=0,row=1,padx=spal,pady=spal)
+        self.V_repertoire = StringVar(value= parametres["rep"])
+        E_repertoire = Entry(self,width=70,textvariable=self.V_repertoire)
+        E_repertoire.grid(column=1,row=1,padx=spal,pady=spal)
         pdf = Label(self, text="Visualiseur PDF")
         pdf.grid(column=0,row=2,padx=spal,pady=spal)
         self.V_pdf = StringVar(value=parametres["pdf"])
@@ -471,7 +471,7 @@ class Parametre(Frame):
         bouton.grid(column = 3,row = 2,padx=spal,pady=spal)
 
     def save(self):
-        parametres["sca"] = self.V_scanner.get()
+        parametres["rep"] = self.V_repertoire.get()
         parametres["pdf"] = self.V_pdf.get()
 
     def editer(self):
@@ -508,10 +508,7 @@ class Extraction(Frame):
         a = utilities.str_to_date(a)
         print(de," ",a)
         self.parent.BD.extract(de,a,self.nom_extraction.V.get())
-        #self.parent.Dico_parametres["imp"] = self.V_imprimante.get()
-        #self.parent.Dico_parametres["sca"] = self.V_scanner.get()
-        #self.parent.Dico_parametres["pdf"] = self.V_pdf.get()
-
+        
     #def editer(self):
         #self.parent.efface()
         #self.pack(side="left",padx=spal,pady=spal)
