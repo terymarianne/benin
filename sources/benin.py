@@ -70,7 +70,6 @@ class Search(Frame):
             self.parent.parent.erreur.affiche("la carte {} n'existe pas".format(self.V_search.get()))
             self.parent.parent.formulaire.update_data(None)
         else :
-            #print(r)
             self.parent.parent.formulaire.update_data(r)
 
 class Commandes(Frame):
@@ -191,7 +190,10 @@ class Photo(Frame):
 
     def update(self,adresse):
         self.image = adresse
-        im = Image.open(self.image)
+        try:
+            im = Image.open(self.image)
+        except:
+            im = Image.open("{}/photo.png".format(parametres["don"]))
         x=im.size[0]
         y=im.size[1]
         if x>y :
@@ -272,7 +274,7 @@ class Formulaire(Frame):
         d = utilities.datetime.date.today()
         nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
         self.V_numcarte = StringVar(value=nomcarte)
-        self.V_numcarte.trace_variable("w",OnValidate2)
+        #self.V_numcarte.trace_variable("w",OnValidate2)
         E_numcarte = Entry(F_carte,textvariable=self.V_numcarte, state = "disabled")
         self.V_dateEmi = StringVar(value=utilities.date_to_str(d))
         E_dateEmi = Entry(F_carte,textvariable=self.V_dateEmi)
@@ -456,7 +458,9 @@ class Formulaire(Frame):
             self.V_cheveux.set(personne.cheveux)
             self.V_yeux.set(personne.yeux)
             self.V_signe.set(personne.signes)
-            self.parent.parent.photo.update(personne.photo)
+            nom_image = personne.photo
+            nom_image = nom_image.split("/")
+            self.parent.parent.photo.update(parametres["pho"] + "/{}".format(nom_image[len(nom_image)-1]))
 
         #self.parent.parent.update()
         #self.parent.update()
