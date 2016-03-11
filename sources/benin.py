@@ -280,7 +280,7 @@ class Formulaire(Frame):
         self.V_dateExp = StringVar(value=utilities.date_to_str(dexp))
         E_dateExp = Entry(F_carte,textvariable=self.V_dateExp)
         L_numcarte.grid(column=1,row=0,sticky='W',padx=spal)
-        E_numcarte.grid(column=1,row=1,sticky='EW',padx=spal,pady=spal)
+        E_numcarte.grid(column=1,row=1,sticky='EW',padx=spal,pady=spal, state = "DISABLED")
         L_dateEmi.grid(column=2,row=0,sticky='W',padx=spal)
         E_dateEmi.grid(column=2,row=1,sticky='EW',padx=spal,pady=spal)
         L_dateExp.grid(column=3,row=0,sticky='W',padx=spal)
