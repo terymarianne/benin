@@ -70,7 +70,6 @@ class Search(Frame):
             self.parent.parent.erreur.affiche("la carte {} n'existe pas".format(self.V_search.get()))
             self.parent.parent.formulaire.update_data(None)
         else :
-            #print(r)
             self.parent.parent.formulaire.update_data(r)
 
 class Commandes(Frame):
@@ -191,7 +190,10 @@ class Photo(Frame):
 
     def update(self,adresse):
         self.image = adresse
-        im = Image.open(self.image)
+        try:
+            im = Image.open(self.image)
+        except:
+            im = Image.open("{}/photo.png".format(parametres["don"]))
         x=im.size[0]
         y=im.size[1]
         if x>y :
@@ -254,6 +256,12 @@ def OnValidate(*args):
     if len(app.formulaire.V_signe.get()) > 25 :
         app.formulaire.V_signe.set(app.formulaire.V_signe.get()[:-1])
 
+def OnValidate2(*args):
+    code = app.formulaire.V_numcarte.get()
+    if code in app.BD.bdc :
+        app.erreur.affiche("la carte existe déjà")
+    else: 
+        app.erreur.affiche("ok")
 
 class Formulaire(Frame):
     def __init__(self, fenetre, **kwargs):
@@ -266,7 +274,8 @@ class Formulaire(Frame):
         d = utilities.datetime.date.today()
         nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
         self.V_numcarte = StringVar(value=nomcarte)
-        E_numcarte = Entry(F_carte,textvariable=self.V_numcarte)
+        #self.V_numcarte.trace_variable("w",OnValidate2)
+        E_numcarte = Entry(F_carte,textvariable=self.V_numcarte, state = "disabled")
         self.V_dateEmi = StringVar(value=utilities.date_to_str(d))
         E_dateEmi = Entry(F_carte,textvariable=self.V_dateEmi)
         dexp = dexp = utilities.date_expiration(d)
@@ -449,7 +458,9 @@ class Formulaire(Frame):
             self.V_cheveux.set(personne.cheveux)
             self.V_yeux.set(personne.yeux)
             self.V_signe.set(personne.signes)
-            self.parent.parent.photo.update(personne.photo)
+            nom_image = personne.photo
+            nom_image = nom_image.split("/")
+            self.parent.parent.photo.update(parametres["pho"] + "/{}".format(nom_image[len(nom_image)-1]))
 
         #self.parent.parent.update()
         #self.parent.update()
@@ -457,11 +468,11 @@ class Parametre(Frame):
     def __init__(self, fenetre, **kwargs):
         Frame.__init__(self, fenetre, width = 300,height = 200,**kwargs) #bg="black",
         self.parent = fenetre
-        scanner = Label(self, text="Scanner")
-        scanner.grid(column=0,row=1,padx=spal,pady=spal)
-        self.V_scanner = StringVar(value=parametres["sca"])
-        E_scanner = Entry(self,width=70,textvariable=self.V_scanner)
-        E_scanner.grid(column=1,row=1,padx=spal,pady=spal)
+        repertoire = Label(self, text="Répertoire d'instalation du programme")
+        repertoire.grid(column=0,row=1,padx=spal,pady=spal)
+        self.V_repertoire = StringVar(value= parametres["rep"])
+        E_repertoire = Entry(self,width=70,textvariable=self.V_repertoire)
+        E_repertoire.grid(column=1,row=1,padx=spal,pady=spal)
         pdf = Label(self, text="Visualiseur PDF")
         pdf.grid(column=0,row=2,padx=spal,pady=spal)
         self.V_pdf = StringVar(value=parametres["pdf"])
@@ -471,7 +482,7 @@ class Parametre(Frame):
         bouton.grid(column = 3,row = 2,padx=spal,pady=spal)
 
     def save(self):
-        parametres["sca"] = self.V_scanner.get()
+        parametres["rep"] = self.V_repertoire.get()
         parametres["pdf"] = self.V_pdf.get()
 
     def editer(self):
@@ -508,10 +519,7 @@ class Extraction(Frame):
         a = utilities.str_to_date(a)
         print(de," ",a)
         self.parent.BD.extract(de,a,self.nom_extraction.V.get())
-        #self.parent.Dico_parametres["imp"] = self.V_imprimante.get()
-        #self.parent.Dico_parametres["sca"] = self.V_scanner.get()
-        #self.parent.Dico_parametres["pdf"] = self.V_pdf.get()
-
+        
     #def editer(self):
         #self.parent.efface()
         #self.pack(side="left",padx=spal,pady=spal)
