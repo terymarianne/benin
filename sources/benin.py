@@ -225,17 +225,17 @@ def OnValidate(*args):
         app.formulaire.V_nomu.set(app.formulaire.V_nomu.get()[:-1])
     if len(app.formulaire.V_prenoms.get()) > 28 :
         app.formulaire.V_prenoms.set(app.formulaire.V_prenoms.get()[:-1])
-    if len(app.formulaire.V_adresse.get()) > 45 :
+    if len(app.formulaire.V_adresse.get()) > 43 :
         app.formulaire.V_adresse.set(app.formulaire.V_adresse.get()[:-1])
-    if len(app.formulaire.V_adresse2.get()) > 45 :
+    if len(app.formulaire.V_adresse2.get()) > 43 :
         app.formulaire.V_adresse2.set(app.formulaire.V_adresse2.get()[:-1])
     if len(app.formulaire.V_date_n.get()) > 10 :
         app.formulaire.V_date_n.set(app.formulaire.V_date_n.get()[:-1])
-    if len(app.formulaire.V_lieu_n.get()) > 30 :
+    if len(app.formulaire.V_lieu_n.get()) > 28 :
         app.formulaire.V_lieu_n.set(app.formulaire.V_lieu_n.get()[:-1])
-    if len(app.formulaire.V_nomP1.get()) > 30 :
+    if len(app.formulaire.V_nomP1.get()) > 28 :
         app.formulaire.V_nomP1.set(app.formulaire.V_nomP1.get()[:-1])
-    if len(app.formulaire.V_nomP2.get()) > 30 :
+    if len(app.formulaire.V_nomP2.get()) > 28 :
         app.formulaire.V_nomP2.set(app.formulaire.V_nomP2.get()[:-1])
     if len(app.formulaire.V_extrait1.get()) > 35 :
         app.formulaire.V_extrait1.set(app.formulaire.V_extrait1.get()[:-1])
@@ -301,7 +301,7 @@ class Formulaire(Frame):
         E_nomu = Entry(F_ID,textvariable=self.V_nomu)
         self.V_prenoms = StringVar(value="")
         self.V_prenoms.trace_variable("w",OnValidate)
-        E_prenoms = Entry(F_ID,textvariable=self.V_prenoms)
+        E_prenoms = Entry(F_ID,textvariable=self.V_prenoms, width = 40)
         self.V_adresse = StringVar(value="")
         self.V_adresse.trace_variable("w",OnValidate)
         E_adresse = Entry(F_ID,textvariable=self.V_adresse)
@@ -327,10 +327,10 @@ class Formulaire(Frame):
         L_nomP2 = Label(F_naissance, text="Nom Prénom")
         self.V_date_n = StringVar(value="")
         self.V_date_n.trace_variable("w",OnValidate)
-        E_date_n = Entry(F_naissance,textvariable=self.V_date_n)
+        E_date_n = Entry(F_naissance,textvariable=self.V_date_n, width = 3)
         self.V_lieu_n = StringVar(value="")
         self.V_lieu_n.trace_variable("w",OnValidate)
-        E_lieu_n = Entry(F_naissance,textvariable=self.V_lieu_n)
+        E_lieu_n = Entry(F_naissance,textvariable=self.V_lieu_n, width = 35)
         self.V_nomP1 = StringVar(value="")
         self.V_nomP1.trace_variable("w",OnValidate)
         E_nomP1 = Entry(F_naissance,textvariable=self.V_nomP1)
@@ -340,7 +340,7 @@ class Formulaire(Frame):
         L_Extrait = Label(F_naissance, text = "Extrait")
         self.V_extrait1 = StringVar(value="")
         self.V_extrait1.trace_variable("w",OnValidate)
-        E_extrait1 = Entry(F_naissance,textvariable=self.V_extrait1)
+        E_extrait1 = Entry(F_naissance,textvariable=self.V_extrait1, width = 45)
         self.V_extrait2 = StringVar(value="")
         self.V_extrait2.trace_variable("w",OnValidate)
         E_extrait2 = Entry(F_naissance,textvariable=self.V_extrait2)
@@ -352,7 +352,7 @@ class Formulaire(Frame):
         L_lieu_n.grid(column=2,row=4,sticky='w',padx=spal)
         L_Extrait.grid(column=3,row=4,sticky='w',padx=spal,pady=spal)
         E_date_n.grid(column=1,row=5,sticky='EW',padx=spal,pady=spal)
-        E_lieu_n.grid(column=2,row=5,columnspan=2,sticky='EW',padx=spal,pady=spal)
+        E_lieu_n.grid(column=2,row=5,sticky='EW',padx=spal,pady=spal)
         E_extrait1.grid(column=3,row=5,sticky='EW',padx=spal)
         L_de.grid(column=1,row=6,sticky='E',rowspan=2)
         L_nomP1.grid(column=2,row=6,sticky='w',padx=spal)
@@ -375,7 +375,7 @@ class Formulaire(Frame):
         E_profession = Entry(F_info,textvariable=self.V_profession)
         self.V_taille = StringVar(value="")
         self.V_taille.trace_variable("w",OnValidate)
-        E_taille = Entry(F_info,textvariable=self.V_taille)
+        E_taille = Entry(F_info,textvariable=self.V_taille, width = 9)
         self.V_teint = StringVar(value="")
         self.V_teint.trace_variable("w",OnValidate)
         E_teint = Entry(F_info,textvariable=self.V_teint)
@@ -388,18 +388,19 @@ class Formulaire(Frame):
         self.V_signe = StringVar(value="")
         self.V_signe.trace_variable("w",OnValidate)
         E_signe = Entry(F_info,textvariable=self.V_signe)
+        
         L_profession.grid(column=1,row=12,sticky='w',padx=spal)
-        E_profession.grid(column=1,row=13,sticky='EW',padx=spal,pady=spal,columnspan=2)
-        L_taille.grid(column=1,row=14,sticky='w',padx=spal)
-        L_teint.grid(column=2,row=14,sticky='w',padx=spal)
-        E_taille.grid(column=1,row=15,sticky='EW',padx=spal,pady=spal)
-        E_teint.grid(column=2,row=15,sticky='EW',padx=spal,pady=spal)
-        L_cheveux.grid(column=1,row=16,sticky='w',padx=spal)
-        L_yeux.grid(column=2,row=16,sticky='w',padx=spal)
-        E_cheveux.grid(column=1,row=17,sticky='EW',padx=spal,pady=spal)
-        E_yeux.grid(column=2,row=17,sticky='EW',padx=spal,pady=spal)
-        L_signe.grid(column=1,row=18,sticky='w',padx=spal)
-        E_signe.grid(column=1,row=19,sticky='EW',padx=spal,pady=spal,columnspan=2)
+        E_profession.grid(column=1,row=13,sticky='EW',padx=spal,pady=spal)
+        L_taille.grid(column=2,row=12,sticky='w',padx=spal)
+        E_taille.grid(column=2,row=13,sticky='EW',padx=spal,pady=spal)
+        L_teint.grid(column=3,row=12,sticky='w',padx=spal)
+        E_teint.grid(column=3,row=13,sticky='EW',padx=spal,pady=spal)
+        L_cheveux.grid(column=4,row=12,sticky='w',padx=spal)
+        E_cheveux.grid(column=4,row=13,sticky='EW',padx=spal,pady=spal)
+        L_yeux.grid(column=5,row=12,sticky='w',padx=spal)
+        E_yeux.grid(column=5,row=13,sticky='EW',padx=spal,pady=spal)
+        L_signe.grid(column=1,row=14,sticky='w',padx=spal)
+        E_signe.grid(column=1,row=15,sticky='EW',padx=spal,pady=spal,columnspan = 5)
 
         F_carte.grid(column=0,row=0,sticky='W',padx=spaf,pady=spaf)
         F_ID.grid(column=0,row=1,sticky='W',padx=spaf,pady=spaf)
