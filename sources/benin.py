@@ -467,7 +467,7 @@ class Formulaire(Frame):
         #self.parent.update()
 class Parametre(Frame):
     def __init__(self, fenetre, **kwargs):
-        Frame.__init__(self, fenetre, width = 300,height = 200,**kwargs) #bg="black",
+        Frame.__init__(self,**kwargs) #bg="black",
         self.parent = fenetre
         repertoire = Label(self, text="Répertoire d'instalation du programme")
         repertoire.grid(column=0,row=1,padx=spal,pady=spal)
@@ -494,9 +494,39 @@ class Parametre(Frame):
         self.parent.efface()
         self.pack(padx=spal,pady=spal)
 
+class AfficheBD(Frame):
+    def __init__(self, fenetre, **kwargs):
+        Frame.__init__(self, fenetre,**kwargs) #bg="black",
+        self.parent = fenetre
+        L_code = Label(self, text="Carte n°")
+        L_dateEmi = Label(self, text="Date d'émission")
+        L_Nom = Label(self, text="Nom patronimique")
+
+        L_code.grid(column=0,row=0,padx=spal,pady=spal)
+        L_dateEmi.grid(column=1,row=0,padx=spal,pady=spal)
+        L_Nom.grid(column=2, row=0,padx=spal,pady=spal)
+        BD_= []
+
+        for elmt in self.parent.BD.bdc:
+            BD_.append((Entry(self,textvariable=StringVar(value=elmt)),
+                        Entry(self,textvariable=StringVar(value=utilities.date_to_str(self.parent.BD.bdc[elmt].data.date_emission))),
+                        Entry(self,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.nom_naissance))))
+        i = 1
+        for elmt in BD_:
+            elmt[0].grid(column=0,row=i,padx=spal,pady=spal)
+            elmt[1].grid(column=1,row=i,padx=spal,pady=spal)
+            elmt[2].grid(column=2,row=i,padx=spal,pady=spal)
+            i +=1
+
+
+    def afficher(self):
+        self.parent.efface()
+        self.pack(padx=spal,pady=spal)
+
+
 class Extraction(Frame):
     def __init__(self, fenetre, **kwargs):
-        Frame.__init__(self, fenetre,width = 300,height = 200,**kwargs) #bg="black",
+        Frame.__init__(self,**kwargs) #bg="black",
         self.parent = fenetre
         self.de = champ(self,"de","JJ/MM/AAAA",10)
         self.a =  champ(self,"a","JJ/MM/AAAA",10)
@@ -535,6 +565,9 @@ class simpleapp_tk(Tk):
         Tk.__init__(self,parent)
         self.parent = parent
         self.charge()
+        self.resizable(width=False,height=False)
+        self.minsize(width=1200, height=700)
+        self.maxsize(width=1200, height=700)
         #self.attributes('-fullscreen', 1)
         self.cadre = Cadre(self)
         self.initialize()
@@ -555,6 +588,7 @@ class simpleapp_tk(Tk):
         self.cadre.pack()
         self.parametres = Parametre(self)
         self.extraction = Extraction(self)
+        self.afficheBD = AfficheBD(self)
 
     def affiche(self):
         self.efface()
@@ -591,29 +625,20 @@ class simpleapp_tk(Tk):
             pass
 
     def save(self):
-#        date = utilities.datetime.date.today()
-#        date_compare = utilities.date_to_str(date)
-#        self.Dico_parametres["der"] = date_compare
-#        print("avant de faire save, on a date : {}, compteur : {}".format(date_compare,self.compteur))
-#        self.Dico_parametres["cmt"] = str(self.compteur)
         self.BD.save(parametres["bdd"])
-#        s = "{"
-#        for el in self.Dico_parametres:
-#            s += '"{}":"{}",\n'.format(el,self.Dico_parametres[el])
-#        s +="}"
-#        with open(parametres["par"],'w',encoding="utf8") as f:
-#            f.write(s)
   
     def efface(self):
         self.formulaire.update_data(None)
         self.cadre.forget()
         self.parametres.forget()
         self.extraction.forget()
+        self.afficheBD.forget()
 
     def menu(self):
         self.menubar = Menu(self)
         menu1 = Menu(self.menubar, tearoff=0)
         menu1.add_command(label="Nouvelle carte", command=self.affiche)
+        menu1.add_command(label="Afficher la base de données", command=self.afficheBD.afficher)
         menu1.add_separator()
         menu1.add_command(label="Quitter", command=self.quit)
         self.menubar.add_cascade(label="Fichier", menu=menu1)
