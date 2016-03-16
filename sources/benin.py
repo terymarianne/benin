@@ -272,7 +272,7 @@ class Formulaire(Frame):
         L_dateEmi = Label(F_carte, text="Date d'émission")
         L_dateExp = Label(F_carte, text="Date d'expiration")
         d = utilities.datetime.date.today()
-        nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
+        nomcarte = "LY{}-{:02}{:02}{:02}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
         self.V_numcarte = StringVar(value=nomcarte)
         #self.V_numcarte.trace_variable("w",OnValidate2)
         E_numcarte = Entry(F_carte,textvariable=self.V_numcarte, state = "disabled")
@@ -412,7 +412,7 @@ class Formulaire(Frame):
         if personne == None:
             self.parent.parent.photo.update("{}/photo.png".format(parametres["don"]))
             d = utilities.datetime.date.today()
-            nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
+            nomcarte = "LY{}-{:02}{:02}{:02}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
             self.V_numcarte.set(nomcarte)
             dexp = utilities.date_expiration(d)
             self.V_dateEmi.set(str(d.day)+"/"+str(d.month)+"/"+str(d.year))
