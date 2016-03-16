@@ -498,26 +498,38 @@ class AfficheBD(Frame):
     def __init__(self, fenetre, **kwargs):
         Frame.__init__(self, fenetre,**kwargs) #bg="black",
         self.parent = fenetre
-        L_code = Label(self, text="Carte n°")
-        L_dateEmi = Label(self, text="Date d'émission")
-        L_Nom = Label(self, text="Nom patronimique")
+        self.scroll = Scrollbar(self, orient=VERTICAL)
+        self.scroll.grid(row=0, column=1, sticky=N+S)
+        self.c = Canvas(self, width = 1190, yscrollcommand=self.scroll.set)  #height = 690,
+        self.c.grid(row=0, column=0, sticky="news")
+        self.scroll.config(command=self.c.yview)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0,weight=1)
+        fr = Frame(self.c)
 
-        L_code.grid(column=0,row=0,padx=spal,pady=spal)
-        L_dateEmi.grid(column=1,row=0,padx=spal,pady=spal)
-        L_Nom.grid(column=2, row=0,padx=spal,pady=spal)
+        L_code = Label(fr, width = 12, text="Carte n°")
+        L_dateEmi = Label(fr, width = 12, text="Date d'émission")
+        L_Nom = Label(fr, text="Nom patronimique")
+
+        L_code.grid(column=1,row=0,padx=spal,pady=spal)
+        L_dateEmi.grid(column=2,row=0,padx=spal,pady=spal)
+        L_Nom.grid(column=3, row=0,padx=spal,pady=spal)
         BD_= []
-
-        for elmt in self.parent.BD.bdc:
-            BD_.append((Entry(self,textvariable=StringVar(value=elmt)),
-                        Entry(self,textvariable=StringVar(value=utilities.date_to_str(self.parent.BD.bdc[elmt].data.date_emission))),
-                        Entry(self,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.nom_naissance))))
+        liste = list(self.parent.BD.bdc.keys())
+        liste.sort( reverse = True)
+        for elmt in liste:
+            BD_.append((Entry(fr, width = 12,textvariable=StringVar(value=elmt)),
+                        Entry(fr, width = 12,textvariable=StringVar(value=utilities.date_to_str(self.parent.BD.bdc[elmt].data.date_emission))),
+                        Entry(fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.nom_naissance))))
         i = 1
         for elmt in BD_:
-            elmt[0].grid(column=0,row=i,padx=spal,pady=spal)
-            elmt[1].grid(column=1,row=i,padx=spal,pady=spal)
-            elmt[2].grid(column=2,row=i,padx=spal,pady=spal)
+            elmt[0].grid(column=1,row=i,padx=spal,pady=spal)
+            elmt[1].grid(column=2,row=i,padx=spal,pady=spal)
+            elmt[2].grid(column=3,row=i,padx=spal,pady=spal)
             i +=1
-
+        self.c.create_window(0, 0, window=fr)
+        fr.update_idletasks()
+        self.c.config(scrollregion=self.c.bbox("all"))
 
     def afficher(self):
         self.parent.efface()
