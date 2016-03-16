@@ -237,11 +237,11 @@ def OnValidate(*args):
         app.formulaire.V_nomP1.set(app.formulaire.V_nomP1.get()[:-1])
     if len(app.formulaire.V_nomP2.get()) > 28 :
         app.formulaire.V_nomP2.set(app.formulaire.V_nomP2.get()[:-1])
-    if len(app.formulaire.V_extrait1.get()) > 35 :
+    if len(app.formulaire.V_extrait1.get()) > 40 :
         app.formulaire.V_extrait1.set(app.formulaire.V_extrait1.get()[:-1])
-    if len(app.formulaire.V_extrait2.get()) > 35 :
+    if len(app.formulaire.V_extrait2.get()) > 40 :
         app.formulaire.V_extrait2.set(app.formulaire.V_extrait2.get()[:-1])
-    if len(app.formulaire.V_extrait3.get()) > 35 :
+    if len(app.formulaire.V_extrait3.get()) > 40 :
         app.formulaire.V_extrait3.set(app.formulaire.V_extrait3.get()[:-1])
     if len(app.formulaire.V_profession.get()) > 15 :
         app.formulaire.V_profession.set(app.formulaire.V_profession.get()[:-1])
