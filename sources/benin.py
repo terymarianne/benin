@@ -499,40 +499,48 @@ class AfficheBD(Frame):
         Frame.__init__(self, fenetre,**kwargs) #bg="black",
         self.parent = fenetre
         self.scroll = Scrollbar(self, orient=VERTICAL)
+        self.scroll.focus_set()
         self.scroll.grid(row=0, column=1, sticky=N+S)
-        self.c = Canvas(self, width = 1190, yscrollcommand=self.scroll.set)  #height = 690,
+        self.c = Canvas(self, width = 1190, height = 690, yscrollcommand=self.scroll.set)
         self.c.grid(row=0, column=0, sticky="news")
         self.scroll.config(command=self.c.yview)
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0,weight=1)
-        fr = Frame(self.c)
+        self.fr = Frame(self.c)
 
-        L_code = Label(fr, width = 12, text="Carte n°")
-        L_dateEmi = Label(fr, width = 12, text="Date d'émission")
-        L_Nom = Label(fr, text="Nom patronimique")
+
+    def afficher(self):
+        self.parent.efface()
+        L_code = Label(self.fr, width = 12, text="Carte n°")
+        L_dateEmi = Label(self.fr, width = 12, text="Date d'émission")
+        L_Nom = Label(self.fr, text="Nom patronymique")
+        L_prenoms = Label(self.fr, text="Prénoms")
 
         L_code.grid(column=1,row=0,padx=spal,pady=spal)
         L_dateEmi.grid(column=2,row=0,padx=spal,pady=spal)
         L_Nom.grid(column=3, row=0,padx=spal,pady=spal)
+        L_prenoms.grid(column=4, row=0,padx=spal,pady=spal)
         BD_= []
         liste = list(self.parent.BD.bdc.keys())
         liste.sort( reverse = True)
         for elmt in liste:
-            BD_.append((Entry(fr, width = 12,textvariable=StringVar(value=elmt)),
-                        Entry(fr, width = 12,textvariable=StringVar(value=utilities.date_to_str(self.parent.BD.bdc[elmt].data.date_emission))),
-                        Entry(fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.nom_naissance))))
+            BD_.append((Entry(self.fr, width = 12,textvariable=StringVar(value=elmt)),
+                        Entry(self.fr, width = 12,textvariable=StringVar(value=utilities.date_to_str(self.parent.BD.bdc[elmt].data.date_emission))),
+                        Entry(self.fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.nom_naissance)),
+                        Entry(self.fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.identitee.prenom))
+                        ))
         i = 1
         for elmt in BD_:
             elmt[0].grid(column=1,row=i,padx=spal,pady=spal)
             elmt[1].grid(column=2,row=i,padx=spal,pady=spal)
             elmt[2].grid(column=3,row=i,padx=spal,pady=spal)
+            elmt[3].grid(column=4,row=i,padx=spal,pady=spal)
             i +=1
-        self.c.create_window(0, 0, window=fr)
-        fr.update_idletasks()
+        self.c.create_window(0, 0, window=self.fr)
+        self.fr.update_idletasks()
         self.c.config(scrollregion=self.c.bbox("all"))
+        self.c.yview_moveto(0)
 
-    def afficher(self):
-        self.parent.efface()
         self.pack(padx=spal,pady=spal)
 
 
