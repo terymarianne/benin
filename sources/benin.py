@@ -527,7 +527,7 @@ class AfficheBD(Frame):
             BD_.append((Entry(self.fr, width = 12,textvariable=StringVar(value=elmt)),
                         Entry(self.fr, width = 12,textvariable=StringVar(value=utilities.date_to_str(self.parent.BD.bdc[elmt].data.date_emission))),
                         Entry(self.fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.nom_naissance)),
-                        Entry(self.fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.identitee.prenom))
+                        Entry(self.fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.identitee.prenom), width = 40)
                         ))
         i = 1
         for elmt in BD_:
