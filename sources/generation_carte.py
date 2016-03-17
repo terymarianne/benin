@@ -74,7 +74,10 @@ class carte_consulaire:
         textobject.textLine("protection en cas de besoin.")
         pdf.drawText(textobject)
 
-        pdf.drawImage(personne.photo, (self.x + self.col_photo)*cm, (self.y + 2.3)*cm, width=2.6*cm, height = 2.6*cm, preserveAspectRatio=True)
+        try:
+            pdf.drawImage(personne.photo, (self.x + self.col_photo)*cm, (self.y + 2.3)*cm, width=2.6*cm, height = 2.6*cm, preserveAspectRatio=True)
+        except:
+            pdf.drawImage("{}/photo.png".format(parametres["don"]), (self.x + self.col_photo)*cm, (self.y + 2.3)*cm, width=2.6*cm, height = 2.6*cm, preserveAspectRatio=True)
 
         #grille de gauche
         pdf.setFontSize(self.FontSizeLabel)

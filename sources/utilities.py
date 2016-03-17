@@ -14,7 +14,7 @@ def str_to_date(txt):
     return date
 
 def date_to_str(date):
-    txt = "{}/{}/{}".format(date.day,date.month,date.year)
+    txt = "{:02}/{:02}/{:02}".format(date.day,date.month,date.year)
     return txt
 
 def date_expiration(date):

@@ -225,23 +225,23 @@ def OnValidate(*args):
         app.formulaire.V_nomu.set(app.formulaire.V_nomu.get()[:-1])
     if len(app.formulaire.V_prenoms.get()) > 28 :
         app.formulaire.V_prenoms.set(app.formulaire.V_prenoms.get()[:-1])
-    if len(app.formulaire.V_adresse.get()) > 45 :
+    if len(app.formulaire.V_adresse.get()) > 43 :
         app.formulaire.V_adresse.set(app.formulaire.V_adresse.get()[:-1])
-    if len(app.formulaire.V_adresse2.get()) > 45 :
+    if len(app.formulaire.V_adresse2.get()) > 43 :
         app.formulaire.V_adresse2.set(app.formulaire.V_adresse2.get()[:-1])
     if len(app.formulaire.V_date_n.get()) > 10 :
         app.formulaire.V_date_n.set(app.formulaire.V_date_n.get()[:-1])
-    if len(app.formulaire.V_lieu_n.get()) > 30 :
+    if len(app.formulaire.V_lieu_n.get()) > 28 :
         app.formulaire.V_lieu_n.set(app.formulaire.V_lieu_n.get()[:-1])
-    if len(app.formulaire.V_nomP1.get()) > 30 :
+    if len(app.formulaire.V_nomP1.get()) > 28 :
         app.formulaire.V_nomP1.set(app.formulaire.V_nomP1.get()[:-1])
-    if len(app.formulaire.V_nomP2.get()) > 30 :
+    if len(app.formulaire.V_nomP2.get()) > 28 :
         app.formulaire.V_nomP2.set(app.formulaire.V_nomP2.get()[:-1])
-    if len(app.formulaire.V_extrait1.get()) > 35 :
+    if len(app.formulaire.V_extrait1.get()) > 40 :
         app.formulaire.V_extrait1.set(app.formulaire.V_extrait1.get()[:-1])
-    if len(app.formulaire.V_extrait2.get()) > 35 :
+    if len(app.formulaire.V_extrait2.get()) > 40 :
         app.formulaire.V_extrait2.set(app.formulaire.V_extrait2.get()[:-1])
-    if len(app.formulaire.V_extrait3.get()) > 35 :
+    if len(app.formulaire.V_extrait3.get()) > 40 :
         app.formulaire.V_extrait3.set(app.formulaire.V_extrait3.get()[:-1])
     if len(app.formulaire.V_profession.get()) > 15 :
         app.formulaire.V_profession.set(app.formulaire.V_profession.get()[:-1])
@@ -272,7 +272,7 @@ class Formulaire(Frame):
         L_dateEmi = Label(F_carte, text="Date d'émission")
         L_dateExp = Label(F_carte, text="Date d'expiration")
         d = utilities.datetime.date.today()
-        nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
+        nomcarte = "LY{}-{:02}{:02}{:02}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
         self.V_numcarte = StringVar(value=nomcarte)
         #self.V_numcarte.trace_variable("w",OnValidate2)
         E_numcarte = Entry(F_carte,textvariable=self.V_numcarte, state = "disabled")
@@ -301,7 +301,7 @@ class Formulaire(Frame):
         E_nomu = Entry(F_ID,textvariable=self.V_nomu)
         self.V_prenoms = StringVar(value="")
         self.V_prenoms.trace_variable("w",OnValidate)
-        E_prenoms = Entry(F_ID,textvariable=self.V_prenoms)
+        E_prenoms = Entry(F_ID,textvariable=self.V_prenoms, width = 40)
         self.V_adresse = StringVar(value="")
         self.V_adresse.trace_variable("w",OnValidate)
         E_adresse = Entry(F_ID,textvariable=self.V_adresse)
@@ -327,10 +327,10 @@ class Formulaire(Frame):
         L_nomP2 = Label(F_naissance, text="Nom Prénom")
         self.V_date_n = StringVar(value="")
         self.V_date_n.trace_variable("w",OnValidate)
-        E_date_n = Entry(F_naissance,textvariable=self.V_date_n)
+        E_date_n = Entry(F_naissance,textvariable=self.V_date_n, width = 3)
         self.V_lieu_n = StringVar(value="")
         self.V_lieu_n.trace_variable("w",OnValidate)
-        E_lieu_n = Entry(F_naissance,textvariable=self.V_lieu_n)
+        E_lieu_n = Entry(F_naissance,textvariable=self.V_lieu_n, width = 35)
         self.V_nomP1 = StringVar(value="")
         self.V_nomP1.trace_variable("w",OnValidate)
         E_nomP1 = Entry(F_naissance,textvariable=self.V_nomP1)
@@ -340,7 +340,7 @@ class Formulaire(Frame):
         L_Extrait = Label(F_naissance, text = "Extrait")
         self.V_extrait1 = StringVar(value="")
         self.V_extrait1.trace_variable("w",OnValidate)
-        E_extrait1 = Entry(F_naissance,textvariable=self.V_extrait1)
+        E_extrait1 = Entry(F_naissance,textvariable=self.V_extrait1, width = 45)
         self.V_extrait2 = StringVar(value="")
         self.V_extrait2.trace_variable("w",OnValidate)
         E_extrait2 = Entry(F_naissance,textvariable=self.V_extrait2)
@@ -352,7 +352,7 @@ class Formulaire(Frame):
         L_lieu_n.grid(column=2,row=4,sticky='w',padx=spal)
         L_Extrait.grid(column=3,row=4,sticky='w',padx=spal,pady=spal)
         E_date_n.grid(column=1,row=5,sticky='EW',padx=spal,pady=spal)
-        E_lieu_n.grid(column=2,row=5,columnspan=2,sticky='EW',padx=spal,pady=spal)
+        E_lieu_n.grid(column=2,row=5,sticky='EW',padx=spal,pady=spal)
         E_extrait1.grid(column=3,row=5,sticky='EW',padx=spal)
         L_de.grid(column=1,row=6,sticky='E',rowspan=2)
         L_nomP1.grid(column=2,row=6,sticky='w',padx=spal)
@@ -375,7 +375,7 @@ class Formulaire(Frame):
         E_profession = Entry(F_info,textvariable=self.V_profession)
         self.V_taille = StringVar(value="")
         self.V_taille.trace_variable("w",OnValidate)
-        E_taille = Entry(F_info,textvariable=self.V_taille)
+        E_taille = Entry(F_info,textvariable=self.V_taille, width = 9)
         self.V_teint = StringVar(value="")
         self.V_teint.trace_variable("w",OnValidate)
         E_teint = Entry(F_info,textvariable=self.V_teint)
@@ -388,18 +388,19 @@ class Formulaire(Frame):
         self.V_signe = StringVar(value="")
         self.V_signe.trace_variable("w",OnValidate)
         E_signe = Entry(F_info,textvariable=self.V_signe)
+        
         L_profession.grid(column=1,row=12,sticky='w',padx=spal)
-        E_profession.grid(column=1,row=13,sticky='EW',padx=spal,pady=spal,columnspan=2)
-        L_taille.grid(column=1,row=14,sticky='w',padx=spal)
-        L_teint.grid(column=2,row=14,sticky='w',padx=spal)
-        E_taille.grid(column=1,row=15,sticky='EW',padx=spal,pady=spal)
-        E_teint.grid(column=2,row=15,sticky='EW',padx=spal,pady=spal)
-        L_cheveux.grid(column=1,row=16,sticky='w',padx=spal)
-        L_yeux.grid(column=2,row=16,sticky='w',padx=spal)
-        E_cheveux.grid(column=1,row=17,sticky='EW',padx=spal,pady=spal)
-        E_yeux.grid(column=2,row=17,sticky='EW',padx=spal,pady=spal)
-        L_signe.grid(column=1,row=18,sticky='w',padx=spal)
-        E_signe.grid(column=1,row=19,sticky='EW',padx=spal,pady=spal,columnspan=2)
+        E_profession.grid(column=1,row=13,sticky='EW',padx=spal,pady=spal)
+        L_taille.grid(column=2,row=12,sticky='w',padx=spal)
+        E_taille.grid(column=2,row=13,sticky='EW',padx=spal,pady=spal)
+        L_teint.grid(column=3,row=12,sticky='w',padx=spal)
+        E_teint.grid(column=3,row=13,sticky='EW',padx=spal,pady=spal)
+        L_cheveux.grid(column=4,row=12,sticky='w',padx=spal)
+        E_cheveux.grid(column=4,row=13,sticky='EW',padx=spal,pady=spal)
+        L_yeux.grid(column=5,row=12,sticky='w',padx=spal)
+        E_yeux.grid(column=5,row=13,sticky='EW',padx=spal,pady=spal)
+        L_signe.grid(column=1,row=14,sticky='w',padx=spal)
+        E_signe.grid(column=1,row=15,sticky='EW',padx=spal,pady=spal,columnspan = 5)
 
         F_carte.grid(column=0,row=0,sticky='W',padx=spaf,pady=spaf)
         F_ID.grid(column=0,row=1,sticky='W',padx=spaf,pady=spaf)
@@ -411,7 +412,7 @@ class Formulaire(Frame):
         if personne == None:
             self.parent.parent.photo.update("{}/photo.png".format(parametres["don"]))
             d = utilities.datetime.date.today()
-            nomcarte = "LY{}-{:02}{:02}{}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
+            nomcarte = "LY{}-{:02}{:02}{:02}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
             self.V_numcarte.set(nomcarte)
             dexp = utilities.date_expiration(d)
             self.V_dateEmi.set(str(d.day)+"/"+str(d.month)+"/"+str(d.year))
@@ -466,7 +467,7 @@ class Formulaire(Frame):
         #self.parent.update()
 class Parametre(Frame):
     def __init__(self, fenetre, **kwargs):
-        Frame.__init__(self, fenetre, width = 300,height = 200,**kwargs) #bg="black",
+        Frame.__init__(self,**kwargs) #bg="black",
         self.parent = fenetre
         repertoire = Label(self, text="Répertoire d'instalation du programme")
         repertoire.grid(column=0,row=1,padx=spal,pady=spal)
@@ -493,9 +494,59 @@ class Parametre(Frame):
         self.parent.efface()
         self.pack(padx=spal,pady=spal)
 
+class AfficheBD(Frame):
+    def __init__(self, fenetre, **kwargs):
+        Frame.__init__(self, fenetre,**kwargs) #bg="black",
+        self.parent = fenetre
+        self.scroll = Scrollbar(self, orient=VERTICAL)
+        self.scroll.focus_set()
+        self.scroll.grid(row=0, column=1, sticky=N+S)
+        self.c = Canvas(self, width = 1190, height = 690, yscrollcommand=self.scroll.set)
+        self.c.grid(row=0, column=0, sticky="news")
+        self.scroll.config(command=self.c.yview)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0,weight=1)
+        self.fr = Frame(self.c)
+
+
+    def afficher(self):
+        self.parent.efface()
+        L_code = Label(self.fr, width = 12, text="Carte n°")
+        L_dateEmi = Label(self.fr, width = 12, text="Date d'émission")
+        L_Nom = Label(self.fr, text="Nom patronymique")
+        L_prenoms = Label(self.fr, text="Prénoms")
+
+        L_code.grid(column=1,row=0,padx=spal,pady=spal)
+        L_dateEmi.grid(column=2,row=0,padx=spal,pady=spal)
+        L_Nom.grid(column=3, row=0,padx=spal,pady=spal)
+        L_prenoms.grid(column=4, row=0,padx=spal,pady=spal)
+        BD_= []
+        liste = list(self.parent.BD.bdc.keys())
+        liste.sort( reverse = True)
+        for elmt in liste:
+            BD_.append((Entry(self.fr, width = 12,textvariable=StringVar(value=elmt)),
+                        Entry(self.fr, width = 12,textvariable=StringVar(value=utilities.date_to_str(self.parent.BD.bdc[elmt].data.date_emission))),
+                        Entry(self.fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.nom_naissance)),
+                        Entry(self.fr,textvariable=StringVar(value=self.parent.BD.bdc[elmt].data.identitee.prenom))
+                        ))
+        i = 1
+        for elmt in BD_:
+            elmt[0].grid(column=1,row=i,padx=spal,pady=spal)
+            elmt[1].grid(column=2,row=i,padx=spal,pady=spal)
+            elmt[2].grid(column=3,row=i,padx=spal,pady=spal)
+            elmt[3].grid(column=4,row=i,padx=spal,pady=spal)
+            i +=1
+        self.c.create_window(0, 0, window=self.fr)
+        self.fr.update_idletasks()
+        self.c.config(scrollregion=self.c.bbox("all"))
+        self.c.yview_moveto(0)
+
+        self.pack(padx=spal,pady=spal)
+
+
 class Extraction(Frame):
     def __init__(self, fenetre, **kwargs):
-        Frame.__init__(self, fenetre,width = 300,height = 200,**kwargs) #bg="black",
+        Frame.__init__(self,**kwargs) #bg="black",
         self.parent = fenetre
         self.de = champ(self,"de","JJ/MM/AAAA",10)
         self.a =  champ(self,"a","JJ/MM/AAAA",10)
@@ -534,6 +585,9 @@ class simpleapp_tk(Tk):
         Tk.__init__(self,parent)
         self.parent = parent
         self.charge()
+        self.resizable(width=False,height=False)
+        self.minsize(width=1200, height=700)
+        self.maxsize(width=1200, height=700)
         #self.attributes('-fullscreen', 1)
         self.cadre = Cadre(self)
         self.initialize()
@@ -554,6 +608,7 @@ class simpleapp_tk(Tk):
         self.cadre.pack()
         self.parametres = Parametre(self)
         self.extraction = Extraction(self)
+        self.afficheBD = AfficheBD(self)
 
     def affiche(self):
         self.efface()
@@ -590,29 +645,20 @@ class simpleapp_tk(Tk):
             pass
 
     def save(self):
-#        date = utilities.datetime.date.today()
-#        date_compare = utilities.date_to_str(date)
-#        self.Dico_parametres["der"] = date_compare
-#        print("avant de faire save, on a date : {}, compteur : {}".format(date_compare,self.compteur))
-#        self.Dico_parametres["cmt"] = str(self.compteur)
         self.BD.save(parametres["bdd"])
-#        s = "{"
-#        for el in self.Dico_parametres:
-#            s += '"{}":"{}",\n'.format(el,self.Dico_parametres[el])
-#        s +="}"
-#        with open(parametres["par"],'w',encoding="utf8") as f:
-#            f.write(s)
   
     def efface(self):
         self.formulaire.update_data(None)
         self.cadre.forget()
         self.parametres.forget()
         self.extraction.forget()
+        self.afficheBD.forget()
 
     def menu(self):
         self.menubar = Menu(self)
         menu1 = Menu(self.menubar, tearoff=0)
         menu1.add_command(label="Nouvelle carte", command=self.affiche)
+        menu1.add_command(label="Afficher la base de données", command=self.afficheBD.afficher)
         menu1.add_separator()
         menu1.add_command(label="Quitter", command=self.quit)
         self.menubar.add_cascade(label="Fichier", menu=menu1)
