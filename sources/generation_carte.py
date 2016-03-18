@@ -109,7 +109,8 @@ class carte_consulaire:
         pdf.drawString((self.x + self.COL[1])*cm, (self.y + (self.PRL - 3*self.LIG))*cm, personne.teint)
         pdf.drawString((self.x + self.COL[1])*cm, (self.y + (self.PRL - 4*self.LIG))*cm, personne.cheveux)
         pdf.drawString((self.x + self.COL[1])*cm, (self.y + (self.PRL - 5*self.LIG))*cm, personne.yeux)
-        pdf.drawString((self.x - DEC + self.COL[1])*cm, (self.y + (self.PRL - 8*self.LIG))*cm, personne.signes)
+        pdf.drawString((self.x - 1.3* DEC + self.COL[1])*cm, (self.y + (self.PRL - 8*self.LIG))*cm, personne.signes[0])
+        pdf.drawString((self.x - 1.3* DEC + self.COL[1])*cm, (self.y + (self.PRL - 9*self.LIG))*cm, personne.signes[1])
 
         pdf.setFontSize(7)
 

@@ -104,7 +104,7 @@ class Commandes(Frame):
         personne = c_personne(formulaire.V_numcarte.get(),identitee,formulaire.V_nomn.get(),formulaire.V_date_n.get(),
                         formulaire.V_lieu_n.get(),[formulaire.V_nomP1.get(),formulaire.V_nomP2.get()],
                         [formulaire.V_adresse.get(), formulaire.V_adresse2.get()], formulaire.V_profession.get(),formulaire.V_taille.get(),
-                        formulaire.V_teint.get(),formulaire.V_cheveux.get(),formulaire.V_yeux.get(),formulaire.V_signe.get(),
+                        formulaire.V_teint.get(),formulaire.V_cheveux.get(),formulaire.V_yeux.get(),[formulaire.V_signe.get(),formulaire.V_signe2.get()],
                         [formulaire.V_extrait1.get(),formulaire.V_extrait2.get(),formulaire.V_extrait3.get()],
                         date1,date2,self.parent.parent.photo.image)
         if personne.data.nom_naissance == "" :
@@ -253,8 +253,10 @@ def OnValidate(*args):
         app.formulaire.V_cheveux.set(app.formulaire.V_cheveux.get()[:-1])
     if len(app.formulaire.V_yeux.get()) > 9 :
         app.formulaire.V_yeux.set(app.formulaire.V_yeux.get()[:-1])
-    if len(app.formulaire.V_signe.get()) > 25 :
+    if len(app.formulaire.V_signe.get()) > 28 :
         app.formulaire.V_signe.set(app.formulaire.V_signe.get()[:-1])
+    if len(app.formulaire.V_signe2.get()) > 28 :
+        app.formulaire.V_signe2.set(app.formulaire.V_signe2.get()[:-1])
 
 def OnValidate2(*args):
     code = app.formulaire.V_numcarte.get()
@@ -388,6 +390,9 @@ class Formulaire(Frame):
         self.V_signe = StringVar(value="")
         self.V_signe.trace_variable("w",OnValidate)
         E_signe = Entry(F_info,textvariable=self.V_signe)
+        self.V_signe2 = StringVar(value="")
+        self.V_signe2.trace_variable("w",OnValidate)
+        E_signe2 = Entry(F_info,textvariable=self.V_signe2)
         
         L_profession.grid(column=1,row=12,sticky='w',padx=spal)
         E_profession.grid(column=1,row=13,sticky='EW',padx=spal,pady=spal)
@@ -400,7 +405,8 @@ class Formulaire(Frame):
         L_yeux.grid(column=5,row=12,sticky='w',padx=spal)
         E_yeux.grid(column=5,row=13,sticky='EW',padx=spal,pady=spal)
         L_signe.grid(column=1,row=14,sticky='w',padx=spal)
-        E_signe.grid(column=1,row=15,sticky='EW',padx=spal,pady=spal,columnspan = 5)
+        E_signe.grid(column=1,row=15,sticky='EW',padx=spal,pady=spal,columnspan = 2)
+        E_signe2.grid(column=1,row=16,sticky='EW',padx=spal,pady=spal,columnspan = 2)
 
         F_carte.grid(column=0,row=0,sticky='W',padx=spaf,pady=spaf)
         F_ID.grid(column=0,row=1,sticky='W',padx=spaf,pady=spaf)
@@ -435,6 +441,7 @@ class Formulaire(Frame):
             self.V_cheveux.set("")
             self.V_yeux.set("")
             self.V_signe.set("")
+            self.V_signe2.set("")
         else:
             self.V_numcarte.set(personne.data.num_carte)
             d = personne.data.date_emission
@@ -458,7 +465,8 @@ class Formulaire(Frame):
             self.V_teint.set(personne.teint)
             self.V_cheveux.set(personne.cheveux)
             self.V_yeux.set(personne.yeux)
-            self.V_signe.set(personne.signes)
+            self.V_signe.set(personne.signes[0])
+            self.V_signe2.set(personne.signes[1])
             nom_image = personne.photo
             nom_image = nom_image.split("/")
             self.parent.parent.photo.update(parametres["pho"] + "/{}".format(nom_image[len(nom_image)-1]))
