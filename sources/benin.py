@@ -289,6 +289,8 @@ class Formulaire(Frame):
         E_dateEmi.grid(column=2,row=1,sticky='EW',padx=spal,pady=spal)
         L_dateExp.grid(column=3,row=0,sticky='W',padx=spal)
         E_dateExp.grid(column=3,row=1,sticky='EW',padx=spal,pady=spal)
+        L_carte_esp = Label(F_carte, text="",width = 37)
+        L_carte_esp.grid(column=4,row=0, sticky='EW',padx=spal)
 
         F_ID = LabelFrame(self,text="Identitée")
         L_nomn = Label(F_ID, text="Nom de naissance")
@@ -319,6 +321,8 @@ class Formulaire(Frame):
         L_adresse.grid(column=1,row=10,sticky='w',padx=spal)
         E_adresse.grid(column=1,row=11,sticky='EW',padx=spal,pady=spal,columnspan=3)
         E_adresse2.grid(column=1,row=12,sticky='EW',padx=spal,pady=spal,columnspan=3)
+        L_ID = Label(F_ID, text="",width = 17)
+        L_ID.grid(column=4,row=0, sticky='EW',padx=spal)
 
         F_naissance = LabelFrame(self,text="Naissance")
         L_date_n = Label(F_naissance, text="Date de naissance")
@@ -349,7 +353,7 @@ class Formulaire(Frame):
         self.V_extrait3 = StringVar(value="")
         self.V_extrait3.trace_variable("w",OnValidate)
         E_extrait3 = Entry(F_naissance,textvariable=self.V_extrait3)
-
+        
         L_date_n.grid(column=1,row=4,sticky='w',padx=spal)
         L_lieu_n.grid(column=2,row=4,sticky='w',padx=spal)
         L_Extrait.grid(column=3,row=4,sticky='w',padx=spal,pady=spal)
@@ -364,7 +368,7 @@ class Formulaire(Frame):
         L_et_de.grid(column=1,row=8,sticky='E',rowspan=2)
         L_nomP2.grid(column=2,row=8,sticky='w',padx=spal)
         E_nomP2.grid(column=2,row=9,sticky='EW',padx=spal,pady=spal)
-
+        
         F_info = LabelFrame(self,text="Informations")
         L_profession = Label(F_info, text="Profession")
         L_taille = Label(F_info, text="Taille")
@@ -394,20 +398,22 @@ class Formulaire(Frame):
         self.V_signe2.trace_variable("w",OnValidate)
         E_signe2 = Entry(F_info,textvariable=self.V_signe2, width=40)
         
-        L_profession.grid(column=1,row=12,sticky='w',padx=spal)
-        E_profession.grid(column=1,row=13,sticky='EW',padx=spal,pady=spal)
-        L_taille.grid(column=1,row=14,sticky='w',padx=spal)
-        E_taille.grid(column=1,row=15,sticky='EW',padx=spal,pady=spal)
-        L_teint.grid(column=2,row=14,sticky='w',padx=spal)
-        E_teint.grid(column=2,row=15,sticky='EW',padx=spal,pady=spal)
-        L_cheveux.grid(column=1,row=16,sticky='w',padx=spal)
-        E_cheveux.grid(column=1,row=17,sticky='EW',padx=spal,pady=spal)
-        L_yeux.grid(column=2,row=16,sticky='w',padx=spal)
-        E_yeux.grid(column=2,row=17,sticky='EW',padx=spal,pady=spal)
-        L_signe.grid(column=3,row=12,sticky='w',padx=spal)
-        E_signe.grid(column=3,row=13,sticky='EW',padx=spal,pady=spal,columnspan = 2)
-        E_signe2.grid(column=3,row=14,sticky='EW',padx=spal,pady=spal,columnspan = 2)
-
+        L_profession.grid(column=1,row=0,sticky='w',padx=spal)
+        E_profession.grid(column=1,row=1,sticky='EW',padx=spal,pady=spal)
+        L_taille.grid(column=1,row=2,sticky='w',padx=spal)
+        E_taille.grid(column=1,row=3,sticky='EW',padx=spal,pady=spal)
+        L_teint.grid(column=2,row=2,sticky='w',padx=spal)
+        E_teint.grid(column=2,row=3,sticky='EW',padx=spal,pady=spal)
+        L_cheveux.grid(column=1,row=4,sticky='w',padx=spal)
+        E_cheveux.grid(column=1,row=5,sticky='EW',padx=spal,pady=spal)
+        L_yeux.grid(column=2,row=4,sticky='w',padx=spal)
+        E_yeux.grid(column=2,row=5,sticky='EW',padx=spal,pady=spal)
+        L_signe.grid(column=3,row=0,sticky='w',padx=spal)
+        E_signe.grid(column=3,row=1,sticky='EW',padx=spal,pady=spal,columnspan = 2)
+        E_signe2.grid(column=3,row=2,sticky='EW',padx=spal,pady=spal,columnspan = 2)
+        L_info = Label(F_info, text="",width = 17)
+        L_info.grid(column=5,row=0, sticky='EW',padx=spal)
+        
         F_carte.grid(column=0,row=0,sticky='W',padx=spaf,pady=spaf)
         F_ID.grid(column=0,row=1,sticky='W',padx=spaf,pady=spaf)
         F_naissance.grid(column=0,row=3,sticky='W',padx=spaf,pady=spaf)
