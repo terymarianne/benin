@@ -80,8 +80,8 @@ class BDC():
 
     def traduction(self):
         for e in self.bdc :
-            if isinstance(self.bdc[e].data.adresse , str):
-                self.bdc[e].data.adresse = [ self.bdc[e].data.adresse, "" ]
+            if isinstance(self.bdc[e].signes , str):
+                self.bdc[e].signes = [ self.bdc[e].signes, "" ]
 
     def import_xls(self,nom_fichier_xls):
         try :
