@@ -1,0 +1,6 @@
+DATA
+DATA/*
+*.pyc
+carte_pdf
+sources/__pycache__
+sources/local_parametre.py
