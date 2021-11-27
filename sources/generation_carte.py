@@ -132,7 +132,7 @@ class carte_consulaire:
         pdf.drawString((self.x + self.COL[5])*cm, (self.y + (self.PRL - 2*self.LIG))*cm, personne.data.num_carte)
         fin_nom = ""
         if personne.data.identitee.nom != "":
-            fin_nom = " ép. {}".format(personne.data.identitee.nom)
+            fin_nom = " {}".format(personne.data.identitee.nom)
         nomu_nome = "{}{}".format(personne.data.nom_naissance,fin_nom)
         pdf.drawString((self.x + self.COL[5])*cm, (self.y + (self.PRL - 3*self.LIG))*cm, nomu_nome)
         pdf.drawString((self.x + self.COL[5])*cm, (self.y + (self.PRL - 5*self.LIG))*cm, personne.data.identitee.prenom)
