@@ -1,6 +1,9 @@
-DATA
-DATA/*
-*.pyc
-carte_pdf
-sources/__pycache__
+DATA/
+Python.lnk
+carte_pdf/
+i_view32.exe.lnk
+adobe.lnk
+sources/__pycache__/
 sources/local_parametre.py
+extraction_xls/
+utils.py
