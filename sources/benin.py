@@ -157,11 +157,11 @@ class Photo(Frame):
         self.image = "{}/{}.jpeg".format(parametres["pho"],
                         self.parent.parent.formulaire.V_numcarte.get())
         try :
-            os.remove("c:/test/testR.jpeg")
+            os.remove("c:/benin/scan/testR.jpeg")
         except :
             pass
         try :
-            os.remove("c:/test/test.jpg")
+            os.remove("c:/benin/scan/test.jpg")
         except :
             pass
         try :
@@ -171,7 +171,7 @@ class Photo(Frame):
         except :
             pass
         try :
-                    shutil.move("c:/test/testR.jpeg", self.image)
+                    shutil.move("c:/benin/scan/testR.jpeg", self.image)
         except :
                     self.parent.parent.erreur.affiche("le scanner n'est pas branché")
                     return
