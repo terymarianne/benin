@@ -65,6 +65,7 @@ class Search(Frame):
         bouton_cliquer = Button(self, text="Rechercher",width=spab, command=self.rechercher)
         bouton_cliquer.pack(side="right",padx=spal,pady=spal)
     def rechercher(self):
+        self.parent.parent.erreur.efface()
         r = self.parent.parent.BD.search(self.V_search.get())
         if not r :
             self.parent.parent.erreur.affiche("la carte {} n'existe pas".format(self.V_search.get()))
@@ -93,6 +94,7 @@ class Commandes(Frame):
 
         else:
             self.parent.parent.erreur.affiche("le formulaire n'est pas complet")
+        self.parent.parent.erreur.efface()
 
     def personne(self):
         formulaire = self.parent.parent.formulaire
@@ -120,6 +122,7 @@ class Commandes(Frame):
             self.parent.parent.formulaire.update_data()
         else:
             print("attention pas de sauvegarde possible")
+        self.parent.parent.erreur.efface()
         return personne
 
 class Photo(Frame):
@@ -571,7 +574,7 @@ class Extraction(Frame):
         print(self.de.V.get())
         print(self.a.V.get())
         print(self.nom_extraction.V.get())
-        self.de.message_erreur("mauvais format")
+        #self.de.message_erreur("mauvais format")
         de = self.de.V.get()
         de = utilities.str_to_date(de)
         a = self.a.V.get()
