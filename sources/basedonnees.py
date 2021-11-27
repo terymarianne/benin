@@ -133,9 +133,10 @@ class BDC():
         feuil1.write(0,3,'date expiration')
 
         cmpt_L = 1
-        for elment in self.bdc:
-            print(elment, self.bdc[elment].data.date_expiration, self.bdc[elment].data.date_expiration)
+        for elment in sorted(self.bdc.keys()):
+            #print(elment, self.bdc[elment].data.date_expiration, self.bdc[elment].data.date_expiration)
             if self.bdc[elment].data.date_expiration > de and self.bdc[elment].data.date_expiration < a :
+                #print('ok')
                 ligne = feuil1.row(cmpt_L)
                 ligne.write(0,self.bdc[elment].data.num_carte)
                 ligne.write(1,self.bdc[elment].data.nom_naissance)
@@ -145,7 +146,9 @@ class BDC():
                 ligne.write(3,date_expiration)
                 liste_extract.append(self.bdc[elment])
                 cmpt_L += 1
-        book.save('\extraction_xls\{}.xls'.format(nom_fichier_xls))
+        nom_fichier_xls = parametres["ext"] + '/{}.xls'.format(nom_fichier_xls)
+        print(nom_fichier_xls)
+        book.save(nom_fichier_xls)
         return liste_extract
 
     def __str__(self):

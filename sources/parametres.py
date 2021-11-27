@@ -23,9 +23,9 @@ import local_parametre
 parametres = { "rep": local_parametre.repertoire_w,
                "don": local_parametre.repertoire_w + "/DATA",
                "bdd": local_parametre.repertoire_w + "/DATA/BD_benin",
-               "par": local_parametre.repertoire_w + "/DATA/parametre.txt",
                "car": local_parametre.repertoire_w + "/carte_pdf",
                "pho": local_parametre.repertoire_w + "/carte_pdf/photos",
+               "ext": local_parametre.repertoire_w + "/extraction_xls",
                "pdf": local_parametre.lecteur_pdf,
 }
 #os.path.join(login, 'apogee')
