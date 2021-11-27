@@ -8,6 +8,8 @@ import pickle
 import os
 import xlrd
 from xlwt import Workbook
+from os import listdir
+from os.path import isfile, join
 
 import ipdb
 import utilities
@@ -40,7 +42,7 @@ class c_donnees_xls:
     def __str__(self):
         demi = utilities.date_to_str(self.date_emission)
         dexp = utilities.date_to_str(self.date_expiration)
-        aff = "{:5} {:10}{:10}{:10}".format(self.num_carte,self.nom_naissance,demi,dexp)
+        aff = "{:5} {:15} {:10} {:10}".format(self.num_carte,self.nom_naissance,demi,dexp)
         return aff
 
 
@@ -152,8 +154,8 @@ class BDC():
         return liste_extract
 
     def __str__(self):
-        aff = "{:5} {:10}{:10}{:10}\n".format("num_carte","nom","date emi","date exp")
-        for elment in self.bdc:
+        aff = "{:5} {:10} {:10} {:10}\n".format("num_carte","nom","date emi","date exp")
+        for elment in sorted(self.bdc.keys()):
             aff += self.bdc[elment].__str__() + "\n"
         return aff
 
@@ -174,7 +176,7 @@ def afficheMenu(menu):
 
 def menu():
     """ création du menu"""
-    menu = {'a':'ajouter/modifier un élément'}
+    menu = {'a':'ajouter un élément'}
     menu['s']='chercher un élément'
     menu['p']='affiche la base'
     menu['S']='sauvegarder la base'
@@ -182,10 +184,12 @@ def menu():
     menu['e']='extraire'
     menu['d']="suppression d'un élément"
     menu['i']="import d'un fichier"
+    menu['m']="modifier un élément"
     return menu
 
 if __name__ == "__main__":
     os.chdir(parametres["rep"])
+    
     NOM_FICHIER = parametres["bdd"]
     instruction = 'a'
     """création de l'annuaire"""
@@ -194,12 +198,21 @@ if __name__ == "__main__":
     #baseDD.traduction()
     #baseDD.save(NOM_FICHIER + "_traduit")
 
+    """recherche des fichiers manquant"""
+    rep_pdf = parametres["car"]
+    fichiers = [f for f in listdir(rep_pdf) if isfile(join(rep_pdf, f))]
+    #print(fichiers)
+    print("fichiers manquant dans la base de données")
+    for f in fichiers:
+        if f[:-4] not in baseDD.bdc:
+            print(f[:-4])
+
     """création du menu"""
     menu = menu()
     while instruction != 'q':
         # os.system('clear')
         """affichage du menu"""
-        print(baseDD)
+        #print(baseDD)
         afficheMenu(menu)
         """récupération de l'instruction"""
         instruction = input()
@@ -209,25 +222,44 @@ if __name__ == "__main__":
             print(baseDD)
             continue
         elif instruction == 'a':
-            identitee = c_identitee("nomU","prenom")
-            parent1 = c_identitee("nomU","prenoms")
-            parent2 = c_identitee("nomU","prenoms")
-            demi = utilities.datetime.date.today()
-            dexp = utilities.datetime.date(demi.year+7,demi.month,demi.day)
-            titi = c_personne("LY1", identitee, "aaaa", "date_naissance"," lieu_naissance", [parent1, parent2],
-                     ["adresse","adresse2"], "profession", "taille", "teint", "cheveux", "yeux", "signes", "extrait",
-                     demi, dexp,"photo")
-            baseDD.ajout(titi)
+            baseDD2 = {}
+            baseDD2 = BDC("/home/tery/Documents/prog/benin/DATA/BD_benin_good")
+            for e in baseDD2.bdc:
+                if e not in baseDD.bdc:
+                    baseDD.bdc[e] = baseDD2.bdc[e]
+            # identitee = c_identitee("nomU","prenom")
+            # parent1 = c_identitee("nomU","prenoms")
+            # parent2 = c_identitee("nomU","prenoms")
+            # demi = utilities.datetime.date.today()
+            # dexp = utilities.datetime.date(demi.year+7,demi.month,demi.day)
+            # titi = c_personne("LY1", identitee, "aaaa", "date_naissance"," lieu_naissance", [parent1, parent2],
+            #          ["adresse","adresse2"], "profession", "taille", "teint", "cheveux", "yeux", "signes", "extrait",
+            #          demi, dexp,"photo")
+            # baseDD.ajout(titi)
             continue
         elif instruction == 'S':
             baseDD.save(NOM_FICHIER)
         elif instruction == 's':
-            r = baseDD.search("LY3")
+            print("numéro de carte ?")
+            num = input()
+            r = baseDD.search(num)
             if r :
                 print(r,r.data.identitee.prenom)
             else:
                 print("il n'est pas dans la base")
                 continue
+        elif instruction == 'm':
+            print("numéro de carte ?")
+            num = input()
+            r = baseDD.search(num)
+            if r :
+                print(r,r.data.identitee.prenom)
+            else:
+                print("il n'est pas dans la base")
+            print('Donnez le nouveau chemin de la photo')
+            chemin_photo = input()
+            r.photo = chemin_photo
+            continue
         elif instruction =='e' :
             datem = utilities.datetime.date(2017,1,1)
             dateM = utilities.datetime.date(2021,1,1)
@@ -236,6 +268,7 @@ if __name__ == "__main__":
             for el in L:
                 print(el)
         elif instruction == "d":
+            print("numéro de carte ?")
             num = input()
             if num in baseDD.bdc:
                 del baseDD.bdc[num]
