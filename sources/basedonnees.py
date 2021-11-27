@@ -119,9 +119,11 @@ class BDC():
 
     def ajout(self,personne):
         retour = 1
+        text_retour = "On ajoute : "
         if personne.data.num_carte in self.bdc :
             retour =0
-        print("on ajoute/met à jour : ",personne.data.num_carte, personne.data.nom_naissance)
+            text_retour = "On met à jour : "
+        print(text_retour,personne.data.num_carte, personne.data.nom_naissance)
         self.bdc[personne.data.num_carte] = personne
         return retour
 
