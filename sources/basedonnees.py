@@ -178,7 +178,7 @@ def afficheMenu(menu):
 
 def menu():
     """ création du menu"""
-    menu = {'a':'ajouter un élément'}
+    menu = {'a':'Merge une autre base à la base actuelle'}
     menu['s']='chercher un élément'
     menu['p']='affiche la base'
     menu['S']='sauvegarder la base'
@@ -186,7 +186,7 @@ def menu():
     menu['e']='extraire'
     menu['d']="suppression d'un élément"
     menu['i']="import d'un fichier"
-    menu['m']="modifier un élément"
+    menu['m']="modifier le chemin photo d'un élément"
     return menu
 
 if __name__ == "__main__":
@@ -225,7 +225,9 @@ if __name__ == "__main__":
             continue
         elif instruction == 'a':
             baseDD2 = {}
-            baseDD2 = BDC("/home/tery/Documents/prog/benin/DATA/BD_benin_good")
+            print("chemin vers la deuxième base (absolu)")
+            nom_base = input()
+            baseDD2 = BDC(nom_base)
             for e in baseDD2.bdc:
                 if e not in baseDD.bdc:
                     baseDD.bdc[e] = baseDD2.bdc[e]
