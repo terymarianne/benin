@@ -79,13 +79,19 @@ class Commandes(Frame):
         Frame.__init__(self, fenetre, width=50,  **kwargs) #bg="green",
         self.bouton_quitter = Button(self, text="Quitter", fg="red", width=spab, command=self.quit)
         self.bouton_quitter.pack(side="bottom",padx=spal,pady=spal)
+        self.B_new = Button(self, text="Nouvelle carte", width=spab, command=self.new)
+        self.B_new.pack(side="bottom", padx=spal,pady=spal)
         self.B_print = Button(self, text="Imprimer", width=spab, command=self.imprimer)
         self.B_print.pack(side="bottom",padx=spal,pady=spal)
         self.B_save = Button(self, text="Enregistrer", width=spab, command=self.save)
         self.B_save.pack(side="bottom",padx=spal,pady=spal)
 
+    def new(self):
+        self.parent.parent.photo.update("{}/photo.png".format(parametres["don"]))
+        self.parent.parent.formulaire.update_data()
+
     def imprimer(self):
-        personne = self.save()
+        personne = self.save();
         if personne :
             nom_fichier_pdf = "{}/{}.pdf".format(parametres["car"],personne.data.num_carte)
             generation_carte.generation(nom_fichier_pdf,personne)
@@ -116,10 +122,10 @@ class Commandes(Frame):
 
     def save(self):
         personne = self.personne()
-        self.parent.parent.photo.update("{}/photo.png".format(parametres["don"]))
+        #self.parent.parent.photo.update("{}/photo.png".format(parametres["don"]))
         if personne :
             self.parent.parent.compteur += self.parent.parent.BD.ajout(personne)
-            self.parent.parent.formulaire.update_data()
+            #self.parent.parent.formulaire.update_data()
         else:
             print("attention pas de sauvegarde possible")
         self.parent.parent.erreur.efface()
@@ -620,6 +626,7 @@ class simpleapp_tk(Tk):
         self.parametres = Parametre(self)
         self.extraction = Extraction(self)
         self.afficheBD = AfficheBD(self)
+        self.formulaire.update_data()
 
     def affiche(self):
         self.efface()
@@ -659,7 +666,7 @@ class simpleapp_tk(Tk):
         self.BD.save(parametres["bdd"])
   
     def efface(self):
-        self.formulaire.update_data(None)
+        self.formulaire.update_data()
         self.cadre.forget()
         self.parametres.forget()
         self.extraction.forget()

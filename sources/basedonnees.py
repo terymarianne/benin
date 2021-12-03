@@ -89,7 +89,7 @@ class BDC():
         try :
             wb = xlrd.open_workbook(nom_fichier_xls)
         except :
-            print("le fichier {} n'existe pas".format(nom_fichier))
+            print("le fichier {} n'existe pas".format(nom_fichier_xls))
             return None
         nom_feuille = wb.sheet_names()
         print(nom_feuille)
