@@ -29,7 +29,7 @@ class champ():
     def __init__(self,fenetre,cle,val,max):
         self.parent = fenetre
         self.V = StringVar(value=val)
-        self.V.trace_variable("w",OnValidate)
+        self.V.trace_variable("w", OnValidate)
         self.E = Entry(self.parent,textvariable=self.V)
         self.L = Label(self.parent,text=cle)
         self.Max = max
@@ -129,6 +129,7 @@ class Commandes(Frame):
         else:
             print("attention pas de sauvegarde possible")
         self.parent.parent.erreur.efface()
+        self.parent.parent.save()
         return personne
 
 class Photo(Frame):
@@ -228,52 +229,7 @@ class MessageERR(Frame):
         self.message.forget()
 
 def OnValidate(*args):
-    if len(app.formulaire.V_nomn.get()) > 12 :
-        app.formulaire.V_nomn.set(app.formulaire.V_nomn.get()[:-1])
-    if len(app.formulaire.V_nomu.get()) > 12 :
-        app.formulaire.V_nomu.set(app.formulaire.V_nomu.get()[:-1])
-    if len(app.formulaire.V_prenoms.get()) > 28 :
-        app.formulaire.V_prenoms.set(app.formulaire.V_prenoms.get()[:-1])
-    if len(app.formulaire.V_adresse.get()) > 43 :
-        app.formulaire.V_adresse.set(app.formulaire.V_adresse.get()[:-1])
-    if len(app.formulaire.V_adresse2.get()) > 43 :
-        app.formulaire.V_adresse2.set(app.formulaire.V_adresse2.get()[:-1])
-    if len(app.formulaire.V_date_n.get()) > 10 :
-        app.formulaire.V_date_n.set(app.formulaire.V_date_n.get()[:-1])
-    if len(app.formulaire.V_lieu_n.get()) > 28 :
-        app.formulaire.V_lieu_n.set(app.formulaire.V_lieu_n.get()[:-1])
-    if len(app.formulaire.V_nomP1.get()) > 28 :
-        app.formulaire.V_nomP1.set(app.formulaire.V_nomP1.get()[:-1])
-    if len(app.formulaire.V_nomP2.get()) > 28 :
-        app.formulaire.V_nomP2.set(app.formulaire.V_nomP2.get()[:-1])
-    if len(app.formulaire.V_extrait1.get()) > 40 :
-        app.formulaire.V_extrait1.set(app.formulaire.V_extrait1.get()[:-1])
-    if len(app.formulaire.V_extrait2.get()) > 40 :
-        app.formulaire.V_extrait2.set(app.formulaire.V_extrait2.get()[:-1])
-    if len(app.formulaire.V_extrait3.get()) > 40 :
-        app.formulaire.V_extrait3.set(app.formulaire.V_extrait3.get()[:-1])
-    if len(app.formulaire.V_profession.get()) > 15 :
-        app.formulaire.V_profession.set(app.formulaire.V_profession.get()[:-1])
-    if len(app.formulaire.V_taille.get()) > 8 :
-        app.formulaire.V_taille.set(app.formulaire.V_taille.get()[:-1])
-    if len(app.formulaire.V_teint.get()) > 9 :
-        app.formulaire.V_teint.set(app.formulaire.V_teint.get()[:-1])
-    if len(app.formulaire.V_cheveux.get()) > 9 :
-        app.formulaire.V_cheveux.set(app.formulaire.V_cheveux.get()[:-1])
-    if len(app.formulaire.V_yeux.get()) > 9 :
-        app.formulaire.V_yeux.set(app.formulaire.V_yeux.get()[:-1])
-    if len(app.formulaire.V_signe.get()) > 28 :
-        app.formulaire.V_signe.set(app.formulaire.V_signe.get()[:-1])
-    if len(app.formulaire.V_signe2.get()) > 28 :
-        app.formulaire.V_signe2.set(app.formulaire.V_signe2.get()[:-1])
-
-def OnValidate2(*args):
-    code = app.formulaire.V_numcarte.get()
-    if code in app.BD.bdc :
-        app.erreur.affiche("la carte existe déjà")
-    else: 
-        app.erreur.affiche("ok")
-
+    pass
 class Formulaire(Frame):
     def __init__(self, fenetre, **kwargs):
         Frame.__init__(self, fenetre,**kwargs) #bg="yellow",
@@ -285,7 +241,6 @@ class Formulaire(Frame):
         d = utilities.datetime.date.today()
         nomcarte = "LY{}-{:02}{:02}{:02}".format(str(d.year)[2:], d.month, d.day, self.parent.parent.compteur)
         self.V_numcarte = StringVar(value=nomcarte)
-        #self.V_numcarte.trace_variable("w",OnValidate2)
         E_numcarte = Entry(F_carte,textvariable=self.V_numcarte, state = "disabled")
         self.V_dateEmi = StringVar(value=utilities.date_to_str(d))
         E_dateEmi = Entry(F_carte,textvariable=self.V_dateEmi)
@@ -305,19 +260,19 @@ class Formulaire(Frame):
         L_prenoms = Label(F_ID, text="Prénoms")
         L_adresse = Label(F_ID, text="Adresse")
         self.V_nomn = StringVar(value="")
-        self.V_nomn.trace_variable("w",OnValidate)
+        self.V_nomn.trace_variable("w",self.OnValidate)
         E_nomn = Entry(F_ID,textvariable=self.V_nomn)
         self.V_nomu = StringVar(value="")
-        self.V_nomu.trace_variable("w",OnValidate)
+        self.V_nomu.trace_variable("w",self.OnValidate)
         E_nomu = Entry(F_ID,textvariable=self.V_nomu)
         self.V_prenoms = StringVar(value="")
-        self.V_prenoms.trace_variable("w",OnValidate)
+        self.V_prenoms.trace_variable("w",self.OnValidate)
         E_prenoms = Entry(F_ID,textvariable=self.V_prenoms, width = 40)
         self.V_adresse = StringVar(value="")
-        self.V_adresse.trace_variable("w",OnValidate)
+        self.V_adresse.trace_variable("w",self.OnValidate)
         E_adresse = Entry(F_ID,textvariable=self.V_adresse)
         self.V_adresse2 = StringVar(value="")
-        self.V_adresse2.trace_variable("w",OnValidate)
+        self.V_adresse2.trace_variable("w",self.OnValidate)
         E_adresse2 = Entry(F_ID,textvariable=self.V_adresse2)
         L_nomn.grid(column=0,row=0,sticky='w',padx=spal)
         L_nomu.grid(column=1,row=0,sticky='w',padx=spal)
@@ -337,26 +292,26 @@ class Formulaire(Frame):
         L_nomP1 = Label(F_naissance, text="Nom Prénom")
         L_nomP2 = Label(F_naissance, text="Nom Prénom")
         self.V_date_n = StringVar(value="")
-        self.V_date_n.trace_variable("w",OnValidate)
+        self.V_date_n.trace_variable("w",self.OnValidate)
         E_date_n = Entry(F_naissance,textvariable=self.V_date_n, width = 3)
         self.V_lieu_n = StringVar(value="")
-        self.V_lieu_n.trace_variable("w",OnValidate)
+        self.V_lieu_n.trace_variable("w",self.OnValidate)
         E_lieu_n = Entry(F_naissance,textvariable=self.V_lieu_n, width = 35)
         self.V_nomP1 = StringVar(value="")
-        self.V_nomP1.trace_variable("w",OnValidate)
+        self.V_nomP1.trace_variable("w",self.OnValidate)
         E_nomP1 = Entry(F_naissance,textvariable=self.V_nomP1)
         self.V_nomP2 = StringVar(value="")
-        self.V_nomP2.trace_variable("w",OnValidate)
+        self.V_nomP2.trace_variable("w",self.OnValidate)
         E_nomP2 = Entry(F_naissance,textvariable=self.V_nomP2)
         L_Extrait = Label(F_naissance, text = "Extrait")
         self.V_extrait1 = StringVar(value="")
-        self.V_extrait1.trace_variable("w",OnValidate)
+        self.V_extrait1.trace_variable("w",self.OnValidate)
         E_extrait1 = Entry(F_naissance,textvariable=self.V_extrait1, width = 50)
         self.V_extrait2 = StringVar(value="")
-        self.V_extrait2.trace_variable("w",OnValidate)
+        self.V_extrait2.trace_variable("w",self.OnValidate)
         E_extrait2 = Entry(F_naissance,textvariable=self.V_extrait2)
         self.V_extrait3 = StringVar(value="")
-        self.V_extrait3.trace_variable("w",OnValidate)
+        self.V_extrait3.trace_variable("w",self.OnValidate)
         E_extrait3 = Entry(F_naissance,textvariable=self.V_extrait3)
         
         L_date_n.grid(column=1,row=4,sticky='w',padx=spal)
@@ -382,25 +337,25 @@ class Formulaire(Frame):
         L_yeux = Label(F_info, text="Yeux")
         L_signe = Label(F_info, text="Signes particuliers")
         self.V_profession = StringVar()
-        self.V_profession.trace_variable("w",OnValidate)
+        self.V_profession.trace_variable("w",self.OnValidate)
         E_profession = Entry(F_info,textvariable=self.V_profession)
         self.V_taille = StringVar(value="")
-        self.V_taille.trace_variable("w",OnValidate)
+        self.V_taille.trace_variable("w",self.OnValidate)
         E_taille = Entry(F_info,textvariable=self.V_taille, width = 9)
         self.V_teint = StringVar(value="")
-        self.V_teint.trace_variable("w",OnValidate)
+        self.V_teint.trace_variable("w",self.OnValidate)
         E_teint = Entry(F_info,textvariable=self.V_teint)
         self.V_cheveux = StringVar(value="")
-        self.V_cheveux.trace_variable("w",OnValidate)
+        self.V_cheveux.trace_variable("w",self.OnValidate)
         E_cheveux = Entry(F_info,textvariable=self.V_cheveux)
         self.V_yeux = StringVar(value="")
-        self.V_yeux.trace_variable("w",OnValidate)
+        self.V_yeux.trace_variable("w",self.OnValidate)
         E_yeux = Entry(F_info,textvariable=self.V_yeux)
         self.V_signe = StringVar(value="")
-        self.V_signe.trace_variable("w",OnValidate)
+        self.V_signe.trace_variable("w",self.OnValidate)
         E_signe = Entry(F_info,textvariable=self.V_signe)
         self.V_signe2 = StringVar(value="")
-        self.V_signe2.trace_variable("w",OnValidate)
+        self.V_signe2.trace_variable("w",self.OnValidate)
         E_signe2 = Entry(F_info,textvariable=self.V_signe2, width=40)
         
         L_profession.grid(column=1,row=0,sticky='w',padx=spal)
@@ -422,6 +377,45 @@ class Formulaire(Frame):
         F_naissance.grid(column=0,row=3,sticky='EW',padx=spaf,pady=spaf)
         F_info.grid(column=0,row=4,sticky='EW',padx=spaf,pady=spaf)
 
+    def OnValidate(self, *argv):
+        if len(self.V_nomn.get()) > 12 :
+            self.V_nomn.set(self.V_nomn.get()[:-1])
+        if len(self.V_nomu.get()) > 12 :
+            self.V_nomu.set(self.V_nomu.get()[:-1])
+        if len(self.V_prenoms.get()) > 28 :
+            self.V_prenoms.set(self.V_prenoms.get()[:-1])
+        if len(self.V_adresse.get()) > 43 :
+            self.V_adresse.set(self.V_adresse.get()[:-1])
+        if len(self.V_adresse2.get()) > 43 :
+            self.V_adresse2.set(self.V_adresse2.get()[:-1])
+        if len(self.V_date_n.get()) > 10 :
+            self.V_date_n.set(self.V_date_n.get()[:-1])
+        if len(self.V_lieu_n.get()) > 28 :
+            self.V_lieu_n.set(self.V_lieu_n.get()[:-1])
+        if len(self.V_nomP1.get()) > 28 :
+            self.V_nomP1.set(self.V_nomP1.get()[:-1])
+        if len(self.V_nomP2.get()) > 28 :
+            self.V_nomP2.set(self.V_nomP2.get()[:-1])
+        if len(self.V_extrait1.get()) > 40 :
+            self.V_extrait1.set(self.V_extrait1.get()[:-1])
+        if len(self.V_extrait2.get()) > 40 :
+            self.V_extrait2.set(self.V_extrait2.get()[:-1])
+        if len(self.V_extrait3.get()) > 40 :
+            self.V_extrait3.set(self.V_extrait3.get()[:-1])
+        if len(self.V_profession.get()) > 15 :
+            self.V_profession.set(self.V_profession.get()[:-1])
+        if len(self.V_taille.get()) > 8 :
+            self.V_taille.set(self.V_taille.get()[:-1])
+        if len(self.V_teint.get()) > 9 :
+            self.V_teint.set(self.V_teint.get()[:-1])
+        if len(self.V_cheveux.get()) > 9 :
+            self.V_cheveux.set(self.V_cheveux.get()[:-1])
+        if len(self.V_yeux.get()) > 9 :
+            self.V_yeux.set(self.V_yeux.get()[:-1])
+        if len(self.V_signe.get()) > 28 :
+            self.V_signe.set(self.V_signe.get()[:-1])
+        if len(self.V_signe2.get()) > 28 :
+            self.V_signe2.set(self.V_signe2.get()[:-1])
 
     def update_data(self,personne=None):
         if personne == None:
